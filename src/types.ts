@@ -4,4 +4,5 @@ export interface TaskProps {
   title: string;
   description: string;
   expiresAt: Date;
+  status: 'open' | 'inProces' | 'done';
 }

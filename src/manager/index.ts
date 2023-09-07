@@ -7,6 +7,8 @@ export class Manager {
   private _inProcessContainer = document.getElementById('tasks-in-process') as HTMLDivElement;
   private _doneContainer = document.getElementById('tasks-done') as HTMLDivElement;
 
+  private _currentTask: TaskProps | null = null;
+
   _opened: TaskProps[] = [];
 
   _inProcess: TaskProps[] = [];
@@ -18,16 +20,19 @@ export class Manager {
   makeTask(payload: TaskProps) {
     const task = document.createElement('div');
     task.id = payload.id;
+    task.draggable = true;
     task.classList.add(styles.task);
 
     const title = document.createElement('h3');
-    title.innerHTML = payload.title;
+    title.innerHTML = payload.title + payload.id;
 
     const description = document.createElement('span');
     description.innerHTML = payload.description;
 
     task.append(title);
     task.append(description);
+
+    // task.onclick = () => task.remove();
 
     return task;
   }
@@ -41,6 +46,7 @@ export class Manager {
       description,
       created: new Date(),
       expiresAt,
+      status: 'open',
     };
 
     const newTaskElement = this.makeTask(newTask);
@@ -51,6 +57,8 @@ export class Manager {
   upadate(taskId: string, payload: TaskProps) {}
 
   delete(taskId: string) {}
+
+  openForm() {}
 
   get tasks() {
     return this._opened;
