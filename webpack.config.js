@@ -7,7 +7,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
   mode: 'development',
 
-  // devtool: 'source-map',
+  devtool: 'source-map',
 
   devServer: {
     port: 6060,
@@ -15,7 +15,7 @@ module.exports = {
   },
 
   entry: {
-    index: { import: './src/index.js' },
+    index: { import: './src/index.ts' },
   },
 
   output: {
