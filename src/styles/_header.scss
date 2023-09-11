@@ -1,22 +1,6 @@
 .header {
   width: 100%;
   padding: 24px;
-  border-bottom: 1px solid var(--grey-200);
+  border-bottom: 1px solid var(--grey-700-10);
   min-height: var(--header-height);
-
-  .createTaskButton {
-    width: fit-content;
-    height: 48px;
-    outline: none;
-    border: none;
-    border-radius: 8px;
-    background-color: var(--grey-200);
-    padding: 8px 12px;
-    cursor: pointer;
-    font-weight: 700;
-
-    &:hover {
-      color: var(--primary-700);
-    }
-  }
 }

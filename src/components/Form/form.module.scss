@@ -1,0 +1,43 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dateInput {
+  width: 100%;
+  color: var(--grey-700);
+  padding: 8px;
+  font-size: 16px;
+  line-height: 24px;
+  outline: none;
+  border: none;
+
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 1px var(--grey-700-10);
+}
+
+.input {
+  width: 100%;
+  color: var(--grey-700);
+  padding: 8px;
+  font-size: 16px;
+  line-height: 24px;
+  outline: none;
+  border: none;
+
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 1px var(--grey-700-10);
+
+  &:hover {
+    box-shadow: inset 0 0 0 1px var(--primary-60);
+  }
+
+  &:focus {
+    box-shadow: inset 0 0 0 1px var(--primary);
+  }
+
+  &::placeholder {
+    color: var(--grey-400);
+  }
+}

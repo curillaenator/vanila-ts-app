@@ -1,3 +1,5 @@
+.gitignore
+.eslintignore
 build
 yarn.lock
 node_modules

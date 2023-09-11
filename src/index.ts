@@ -1,6 +1,8 @@
-// тут должна быть работа с DOM с использованием методов и свойст менеджера.
+import { Manager } from './manager/manager';
+import { Form } from '@src/components/Form';
+import { Dialog } from '@src/components/Dialog';
+import { Button } from '@src/components/Button';
 
-import { Manager } from './manager';
 import styles from './styles.module.scss';
 import './global.scss';
 
@@ -10,15 +12,21 @@ header?.classList.add(styles.header);
 document.getElementById('tasks-main')?.classList.add(styles.taskContainer);
 
 const tm = new Manager();
+const dialog = new Dialog();
+const form = new Form({
+  closeForm: dialog.close.bind(dialog),
+  createTask: tm.create.bind(tm),
+});
 
-const button = document.createElement('button');
-button.classList.add(styles.createTaskButton);
-button.onclick = () =>
-  tm.create({
-    title: 'Task',
-    description: 'jkdshjk jkgu ugsd ui',
-    expiresAt: new Date(),
-  });
-button.innerHTML = 'Create';
+dialog.setContent(form.renderForm());
 
-header?.append(button);
+const formButton = new Button('New task').render();
+formButton.onclick = () => dialog.open.call(dialog);
+
+header?.append(formButton);
+
+// tm.create({
+//   title: 'Task',
+//   description: 'jkdshjk jkgu ugsd ui',
+//   expiresAt: new Date(),
+// });
