@@ -1,0 +1,47 @@
+$appearances: (
+  'light': (
+    'bgc': var(--dark-10),
+    'color': var(--dark),
+  ),
+  'attention': (
+    'bgc': var(--attention-10),
+    'color': var(--attention),
+  ),
+  'positive': (
+    'bgc': var(--positive-10),
+    'color': var(--positive),
+  ),
+  'negative': (
+    'bgc': var(--negative-10),
+    'color': var(--negative),
+  ),
+  'info': (
+    'bgc': var(--info-10),
+    'color': var(--info),
+  ),
+);
+
+@each $appearance, $values in $appearances {
+  .#{$appearance} {
+    --badge-bgc: #{map-get($values, 'bgc')};
+    --badge-c: #{map-get($values, 'color')};
+  }
+}
+
+.badge {
+  cursor: pointer;
+  width: fit-content;
+  height: 32px;
+  outline: none;
+  border: none;
+  border-radius: 8px;
+
+  background-color: var(--badge-bgc);
+
+  padding: 4px 8px;
+
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--badge-c);
+}

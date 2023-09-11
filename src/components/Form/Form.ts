@@ -85,7 +85,7 @@ export class Form {
       title: this._title || '',
       description: this._description || '',
       created: new Date(),
-      expiresAt: new Date(),
+      expiresAt: this._expiresAt,
       status: this._status || 'open',
     };
   }
