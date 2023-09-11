@@ -13,10 +13,11 @@
 
   visibility: hidden;
   opacity: 0;
-  transition: opacity 0.2s ease;
+  transition: 0.2s ease;
 
   &_open {
     opacity: 1;
+    backdrop-filter: blur(5px);
   }
 
   &_visible {
@@ -30,7 +31,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: var(--light-80);
+  background-color: var(--light-60);
 }
 
 .content {
@@ -39,6 +40,6 @@
   padding: 32px;
   border-radius: 12px;
   background-color: var(--light);
-  border: 1px solid var(--dark-10);
+  box-shadow: 0 0 16px var(--primary-40);
   z-index: 1;
 }

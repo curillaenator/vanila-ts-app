@@ -2,10 +2,10 @@
   cursor: pointer;
   width: 100%;
   padding: 24px;
-  border: 1px solid var(--dark-10);
   border-radius: 12px;
+  background-color: var(--light);
 
-  transition: opacity 0.2s ease;
+  transition: 0.2s ease;
 
   &_dragging {
     opacity: 0;
@@ -15,10 +15,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 8px;
+    margin-bottom: 16px;
 
     & > h3 {
-      font-size: 24px;
+      font-size: 28px;
       line-height: 32px;
       font-weight: 600;
     }
@@ -29,7 +29,7 @@
   }
 
   .info {
-    margin-top: 24px;
+    margin-top: 32px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -40,6 +40,7 @@
   }
 
   &:hover {
-    border: 1px solid var(--primary);
+    transform: scale(1.01);
+    box-shadow: 0 0 16px var(--primary-40);
   }
 }

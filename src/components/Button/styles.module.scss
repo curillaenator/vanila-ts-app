@@ -4,20 +4,19 @@
   outline: none;
   border: none;
   border-radius: 8px;
-  background-color: var(--dark-10);
+  background-color: var(--dark-20);
   padding: 8px 12px;
   cursor: pointer;
   font-weight: 700;
   font-size: 16px;
   line-height: 24px;
-  color: var(--dark);
+  color: var(--light);
 
   &:hover {
-    background-color: var(--primary-10);
+    background-color: var(--dark-40);
   }
 
   &:active {
-    background-color: var(--primary);
-    color: var(--light);
+    background-color: var(--dark-20);
   }
 }

@@ -100,7 +100,7 @@ export class Manager {
 
     api.getTasks('done').then((doneTasks) => {
       this._done = doneTasks;
-      this.renderDone;
+      this.renderDone();
     });
   }
 

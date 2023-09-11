@@ -25,19 +25,20 @@ export class Form {
     form.classList.add(styles.form);
     form.onsubmit = (e) => e.preventDefault();
 
-    form.append(this.addTextInput('form-title', '_title', 'Task title'));
-    form.append(this.addTextInput('form-description', '_description', 'Task description'));
-    form.append(this.addDateInput(format(new Date(), 'yyyy-MM-dd')));
-
     const submitButton = new Button('Create').render();
     submitButton.type = 'submit';
     submitButton.onclick = (e) => {
       e.preventDefault();
-      closeForm();
       createTask(this.getFormData());
+      closeForm();
     };
 
-    form.append(submitButton);
+    form.append(
+      this.addTextInput('form-title', '_title', 'Task title'),
+      this.addTextInput('form-description', '_description', 'Task description'),
+      this.addDateInput(format(new Date(), 'yyyy-MM-dd')),
+      submitButton,
+    );
 
     this._form = form;
   }
