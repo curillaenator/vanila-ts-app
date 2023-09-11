@@ -6,6 +6,8 @@ import { Button } from '@src/components/Button';
 
 import { StatusType, TaskProps } from '@src/types';
 
+import closeIcon from '@src/assets/closeIcon.png';
+
 interface FormOptions {
   closeForm: () => void;
   createTask: (payload: TaskProps) => void;
@@ -25,6 +27,22 @@ export class Form {
     form.classList.add(styles.form);
     form.onsubmit = (e) => e.preventDefault();
 
+    const formTitle = document.createElement('div');
+    const formText = document.createElement('h3');
+    formText.innerText = 'Create task';
+    const closeButton = document.createElement('button');
+    closeButton.classList.add(styles.iconButton);
+    closeButton.onclick = (e) => {
+      e.preventDefault();
+      closeForm();
+    };
+    const closeButtonIcon = document.createElement('img');
+    closeButtonIcon.src = closeIcon;
+    closeButton.append(closeButtonIcon);
+
+    formTitle.classList.add(styles.title);
+    formTitle.append(formText, closeButton);
+
     const submitButton = new Button('Create').render();
     submitButton.type = 'submit';
     submitButton.onclick = (e) => {
@@ -34,6 +52,7 @@ export class Form {
     };
 
     form.append(
+      formTitle,
       this.addTextInput('form-title', '_title', 'Task title'),
       this.addTextInput('form-description', '_description', 'Task description'),
       this.addDateInput(format(new Date(), 'yyyy-MM-dd')),

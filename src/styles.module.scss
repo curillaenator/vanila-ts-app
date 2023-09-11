@@ -42,6 +42,7 @@ $transparancies: (
   --header-height: 96px;
 
   color: var(--dark);
+  background-color: var(--dark-10);
 }
 
 .header {
@@ -53,6 +54,40 @@ $transparancies: (
   border-bottom: 1px solid var(--dark-10);
   min-height: var(--header-height);
   background-color: var(--primary);
+  border-radius: 0 0 24px 24px;
+}
+
+@mixin scrollbar {
+  &::-webkit-scrollbar {
+    width: 6px;
+
+    &:horizontal {
+      height: 6px;
+    }
+
+    &-thumb {
+      background-color: var(--primary-60);
+      width: 6px;
+      border-radius: 3px;
+
+      &:horizontal {
+        height: 6px;
+      }
+
+      &:hover {
+        background-color: var(--primary);
+      }
+    }
+
+    &-track {
+      background-color: var(--dark-10);
+      border-radius: 0px;
+
+      &:hover {
+        background-color: var(--dark-10);
+      }
+    }
+  }
 }
 
 .taskContainer {
@@ -60,7 +95,6 @@ $transparancies: (
   grid-template-columns: repeat(3, 1fr);
   min-height: calc(100vh - var(--header-height) - 1px);
   max-height: calc(100vh - var(--header-height) - 1px);
-  background-color: var(--dark-10);
 
   :global {
     .column {
@@ -77,6 +111,8 @@ $transparancies: (
       &:last-child {
         border-right: none;
       }
+
+      @include scrollbar;
     }
   }
 }
