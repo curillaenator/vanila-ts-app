@@ -1,22 +1,32 @@
 $appearances: (
+  'white': (
+    'bgc': var(--light),
+    'bdc': var(--primary),
+    'color': var(--dark),
+  ),
   'light': (
     'bgc': var(--dark-10),
+    'bdc': var(--dark),
     'color': var(--dark),
   ),
   'attention': (
     'bgc': var(--attention-10),
+    'bdc': var(--attention),
     'color': var(--attention),
   ),
   'positive': (
     'bgc': var(--positive-10),
+    'bdc': var(--positive),
     'color': var(--positive),
   ),
   'negative': (
     'bgc': var(--negative-10),
+    'bdc': var(--negative),
     'color': var(--negative),
   ),
   'info': (
     'bgc': var(--info-10),
+    'bdc': var(--info),
     'color': var(--info),
   ),
 );
@@ -25,23 +35,65 @@ $appearances: (
   .#{$appearance} {
     --badge-bgc: #{map-get($values, 'bgc')};
     --badge-c: #{map-get($values, 'color')};
+    --badge-bdc: #{map-get($values, 'bdc')};
+  }
+}
+
+$sizes: (
+  'small': (
+    'h': 24px,
+    'px': 8px,
+    'py': 0px,
+    'bdrs': 6px,
+    'fz': 14px,
+    'lh': 24px,
+  ),
+  'medium': (
+    'h': 32px,
+    'px': 8px,
+    'py': 4px,
+    'bdrs': 8px,
+    'fz': 14px,
+    'lh': 24px,
+  ),
+  'large': (
+    'h': 40px,
+    'px': 12px,
+    'py': 8px,
+    'bdrs': 12px,
+    'fz': 16px,
+    'lh': 24px,
+  ),
+);
+
+@each $size, $values in $sizes {
+  .#{$size} {
+    --badge-h: #{map-get($values, 'h')};
+    --badge-pd-x: #{map-get($values, 'px')};
+    --badge-pd-y: #{map-get($values, 'py')};
+    --badge-bdrs: #{map-get($values, 'bdrs')};
+    --badge-fz: #{map-get($values, 'fz')};
+    --badge-lh: #{map-get($values, 'lh')};
   }
 }
 
 .badge {
-  cursor: pointer;
+  display: block;
+  // cursor: pointer;
   width: fit-content;
-  height: 32px;
+  height: calc(var(--badge-h));
   outline: none;
   border: none;
-  border-radius: 8px;
-
+  border-radius: var(--badge-bdrs);
   background-color: var(--badge-bgc);
-
-  padding: 4px 8px;
+  padding: var(--badge-pd-y) var(--badge-pd-x);
 
   font-weight: 600;
-  font-size: 14px;
-  line-height: 24px;
+  font-size: var(--badge-fz);
+  line-height: var(--badge-lh);
   color: var(--badge-c);
+
+  &_bordered {
+    box-shadow: inset 0 0 0 2px var(--badge-bdc);
+  }
 }

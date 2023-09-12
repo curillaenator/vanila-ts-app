@@ -1,4 +1,4 @@
-@import './styles/task', './styles/iconButton';
+@import './styles/task', './styles/scroll', './styles/iconButton';
 
 $transparancies: (
   '80': 0.8,
@@ -57,44 +57,27 @@ $transparancies: (
   border-radius: 0 0 24px 24px;
 }
 
-@mixin scrollbar {
-  &::-webkit-scrollbar {
-    width: 6px;
-
-    &:horizontal {
-      height: 6px;
-    }
-
-    &-thumb {
-      background-color: var(--primary-60);
-      width: 6px;
-      border-radius: 3px;
-
-      &:horizontal {
-        height: 6px;
-      }
-
-      &:hover {
-        background-color: var(--primary);
-      }
-    }
-
-    &-track {
-      background-color: var(--dark-10);
-      border-radius: 0px;
-
-      &:hover {
-        background-color: var(--dark-10);
-      }
-    }
-  }
-}
-
 .taskContainer {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   min-height: calc(100vh - var(--header-height) - 1px);
   max-height: calc(100vh - var(--header-height) - 1px);
+
+  .headings {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    transform: translateY(-75%);
+
+    .head {
+      display: flex;
+      justify-content: center;
+    }
+  }
 
   :global {
     .column {

@@ -13,18 +13,20 @@
 
   .task_header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
+    gap: 12px;
     margin-bottom: 16px;
 
     & > h3 {
-      font-size: 28px;
+      font-size: 24px;
       line-height: 32px;
-      font-weight: 600;
+      font-weight: 700;
+      text-transform: uppercase;
     }
   }
 
-  & > span {
+  .description {
     color: var(--medium);
   }
 
@@ -34,8 +36,9 @@
     align-items: center;
     justify-content: space-between;
 
-    & > span {
-      color: var(--medium);
+    & > span[data-label='true'] {
+      // color: var(--medium);
+      font-weight: 700;
     }
   }
 

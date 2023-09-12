@@ -215,13 +215,21 @@ export class Manager {
     taskHeader.append(taskHeaderDeleteButton);
 
     const descriptionEl = document.createElement('span');
-    descriptionEl.innerHTML = description;
+    descriptionEl.classList.add(styles.description);
+    descriptionEl.innerText = description;
 
     const info = document.createElement('div');
     info.classList.add(styles.info);
     const infoLabel = document.createElement('span');
-    infoLabel.innerHTML = 'Acomplish till:';
-    const badge = new Badge(format(new Date(expiresAt), 'yyyy-MM-dd'), checkExpiry(expiresAt)).render();
+    infoLabel.dataset.label = 'true';
+    infoLabel.innerText = 'Acomplish till:';
+
+    const badge = new Badge({
+      title: format(new Date(expiresAt), 'yyyy-MM-dd'),
+      appearance: checkExpiry(expiresAt),
+      size: 'small',
+      bordered: true,
+    }).render();
 
     info.append(infoLabel, badge);
 
