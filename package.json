@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "webpack serve --open",
-    "build": "webpack",
+    "build": "webpack --mode=production --no-devtool",
     "prepare": "npx husky install"
   },
   "packageManager": "yarn@3.2.0",

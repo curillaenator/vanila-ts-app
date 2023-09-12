@@ -37,7 +37,7 @@ module.exports = {
       template: './src/index.html',
     }),
     // new CopyWebpackPlugin({
-    //   patterns: [{ from: path.resolve(__dirname, './src/assets'), to: '' }],
+    //   patterns: [{ from: path.resolve(__dirname, './src/public'), to: '' }],
     // }),
     new MiniCssExtractPlugin({
       filename: '[name].[fullhash].css',
