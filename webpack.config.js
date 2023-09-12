@@ -20,8 +20,8 @@ module.exports = {
 
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: '[name].bundle.[fullhash].js',
-    publicPath: '/',
+    filename: '[name].bundle.js',
+    publicPath: '/vanila-ts-app/',
     clean: true,
   },
 
