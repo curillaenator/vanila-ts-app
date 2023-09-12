@@ -74,6 +74,7 @@ export class Form {
 
     input.type = 'text';
     input.required = true;
+    input.autocomplete = 'off';
     input.id = id;
     input.name = name;
     input.placeholder = ph;
@@ -85,6 +86,7 @@ export class Form {
     const dateInput = document.createElement('input');
     dateInput.classList.add(styles.dateInput);
     dateInput.type = 'date';
+    dateInput.autocomplete = 'off';
     dateInput.min = min;
     dateInput.value = format(this._expiresAt, 'yyyy-MM-dd');
     dateInput.onchange = (e) => {

@@ -1,31 +1,31 @@
 @mixin scrollbar {
   &::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
 
     &:horizontal {
-      height: 6px;
+      height: 4px;
     }
 
     &-thumb {
-      background-color: var(--primary-60);
-      width: 6px;
-      border-radius: 3px;
+      background-color: var(--dark-40);
+      width: 4px;
+      border-radius: 2px;
 
       &:horizontal {
-        height: 6px;
+        height: 4px;
       }
 
       &:hover {
-        background-color: var(--primary);
+        background-color: var(--dark-60);
       }
     }
 
     &-track {
-      background-color: var(--dark-10);
+      background-color: transparent;
       border-radius: 0px;
 
       &:hover {
-        background-color: var(--dark-10);
+        background-color: transparent;
       }
     }
   }

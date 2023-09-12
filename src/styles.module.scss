@@ -15,8 +15,12 @@ $transparancies: (
 }
 
 :root {
-  --primary: rgb(125, 38, 212);
-  @include makeTransparentColors('primary', '125, 38, 212');
+  // --primary: rgb(130, 46, 203);
+  --primary: rgb(16, 16, 16);
+  @include makeTransparentColors('primary', '16, 16, 16');
+
+  --secondary: rgb(32, 32, 32);
+  @include makeTransparentColors('secondary', '32, 32, 32');
 
   --info: rgb(51, 136, 255);
   @include makeTransparentColors('info', '51, 136, 255');
@@ -24,37 +28,66 @@ $transparancies: (
   --positive: rgb(95, 186, 34);
   @include makeTransparentColors('positive', '95, 186, 34');
 
-  --attention: rgb(252, 192, 12);
-  @include makeTransparentColors('attention', '252, 192, 12');
+  --attention: rgb(255, 137, 11);
+  @include makeTransparentColors('attention', '255, 137, 11');
 
   --negative: rgb(223, 17, 17);
   @include makeTransparentColors('negative', '223, 17, 17');
 
-  --light: rgb(255, 255, 255);
-  @include makeTransparentColors('light', '255, 255, 255');
-
   --medium: rgb(128, 128, 128);
   @include makeTransparentColors('medium', '128, 128, 128');
+
+  --header-height: 96px;
+
+  overflow: hidden;
+}
+
+body {
+  color: var(--dark);
+  min-width: 1280px;
+}
+
+body[data-theme='light'] {
+  --light: rgb(255, 255, 255);
+  @include makeTransparentColors('light', '255, 255, 255');
 
   --dark: rgb(16, 16, 16);
   @include makeTransparentColors('dark', '16, 16, 16');
 
-  --header-height: 96px;
+  --header-inner-color: rgb(64, 64, 64);
 
-  color: var(--dark);
   background-color: var(--dark-10);
+}
+
+body[data-theme='dark'] {
+  --light: rgb(16, 16, 16);
+  @include makeTransparentColors('light', '16, 16, 16');
+
+  --dark: rgb(236, 236, 236);
+  @include makeTransparentColors('dark', '236, 236, 236');
+
+  --header-inner-color: rgb(32, 32, 32);
+
+  background-color: rgb(24, 24, 24);
 }
 
 .header {
   position: sticky;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   top: 0;
   left: 0;
   width: 100%;
   padding: 24px;
-  border-bottom: 1px solid var(--dark-10);
   min-height: var(--header-height);
   background-color: var(--primary);
+  background: radial-gradient(var(--header-inner-color), var(--primary));
   border-radius: 0 0 24px 24px;
+  box-shadow: 0 8px 16px var(--primary-20);
+  z-index: 10;
+
+  border-bottom: 2px solid var(--dark-10);
 }
 
 .taskContainer {
@@ -72,10 +105,12 @@ $transparancies: (
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     transform: translateY(-75%);
+    z-index: 11;
 
     .head {
       display: flex;
       justify-content: center;
+      // filter: drop-shadow(0px 0px 8px var(--primary-40));
     }
   }
 
@@ -83,7 +118,7 @@ $transparancies: (
     .column {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 24px;
       padding: 24px;
       min-height: calc(100vh - var(--header-height) - 1px);
       max-height: calc(100vh - var(--header-height) - 1px);

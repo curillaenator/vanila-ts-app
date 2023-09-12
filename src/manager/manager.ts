@@ -12,6 +12,8 @@ import styles from '../styles.module.scss';
 const TASK_IN_DRUG_ACTION = 'TASK_IN_DRUG_ACTION';
 
 export class Manager {
+  public colorMode: 'light' | 'dark' = 'light';
+
   private _openedContainer: HTMLDivElement;
   private _opened: TaskProps[] = [];
 
@@ -22,6 +24,8 @@ export class Manager {
   private _done: TaskProps[] = [];
 
   constructor() {
+    document.body.dataset.theme = this.colorMode;
+
     this._openedContainer = document.getElementById('tasks-opened') as HTMLDivElement;
 
     this._openedContainer.ondrop = (e) => {
@@ -102,6 +106,11 @@ export class Manager {
       this._done = doneTasks;
       this.renderDone();
     });
+  }
+
+  setColorMode() {
+    this.colorMode = this.colorMode === 'light' ? 'dark' : 'light';
+    document.body.dataset.theme = this.colorMode;
   }
 
   renderOpened() {
@@ -225,7 +234,7 @@ export class Manager {
     infoLabel.innerText = 'Acomplish till:';
 
     const badge = new Badge({
-      title: format(new Date(expiresAt), 'yyyy-MM-dd'),
+      title: format(new Date(expiresAt), 'd MMM yy'),
       appearance: checkExpiry(expiresAt),
       size: 'small',
       bordered: true,
@@ -236,5 +245,9 @@ export class Manager {
     task.append(taskHeader, descriptionEl, info);
 
     return task;
+  }
+
+  get mode() {
+    return this.colorMode;
   }
 }
