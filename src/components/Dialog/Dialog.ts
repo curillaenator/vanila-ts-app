@@ -4,39 +4,48 @@ export interface DialogProps extends Partial<HTMLDivElement> {
   openByDefault?: boolean;
 }
 
+/**
+ * Singleton
+ * @constructor
+ * @param {DialogProps} props - import type { DialogProps } from '@src/components/Dialog'
+ */
 export class Dialog {
-  public isOpen: boolean;
+  public isOpen: boolean = false;
 
-  private container: HTMLDivElement;
-  private content: HTMLElement;
+  private instance: Dialog | null = null;
+
+  private container: HTMLDivElement = document.createElement('div');
+  private overlay: HTMLDivElement = document.createElement('div');
+  private content: HTMLElement = document.createElement('div');
 
   constructor(props?: DialogProps) {
+    if (this.instance !== null) {
+      return this.instance;
+    }
+
     const { openByDefault = false, ...rest } = props || {};
 
     this.isOpen = openByDefault;
 
-    this.container = document.createElement('div');
     this.container.id = 'tasks-modal-portal';
     this.container.classList.add(styles.container);
+    this.content.classList.add(styles.content);
 
     Object.entries(rest).forEach(([propName, propValue]) => {
       // @ts-ignore
       this.container[propName] = propValue;
     });
 
-    const overlay = document.createElement('div');
-    overlay.classList.add(styles.overlay);
-    overlay.onclick = this.close.bind(this);
-
-    this.content = document.createElement('div');
-    this.content.classList.add(styles.content);
-
-    this.container.append(overlay, this.content);
+    this.overlay.classList.add(styles.overlay);
+    this.overlay.onclick = () => this.close.call(this);
 
     document.body.append(this.container);
+
+    this.instance = this;
   }
 
   open() {
+    this.container.append(this.overlay, this.content);
     this.container.classList.add(styles.container_open);
     this.container.classList.add(styles.container_visible);
     this.isOpen = true;
@@ -44,14 +53,15 @@ export class Dialog {
 
   close() {
     this.container.classList.remove(styles.container_open);
+
     setTimeout(() => {
       this.container.classList.remove(styles.container_visible);
       this.isOpen = false;
+      this.container.innerHTML = '';
     }, 200);
   }
 
   setContent(dialogContent: HTMLElement) {
-    this.content.innerHTML = '';
     this.content.append(dialogContent);
   }
 }

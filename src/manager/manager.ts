@@ -11,23 +11,32 @@ import styles from '../styles.module.scss';
 
 const TASK_IN_DRUG_ACTION = 'TASK_IN_DRUG_ACTION';
 
+/**
+ * Singleton
+ * @constructor
+ */
 export class Manager {
   public colorMode: 'light' | 'dark' = 'light';
 
-  private _openedContainer: HTMLDivElement;
+  private instance: Manager | null = null;
+
+  private _openedContainer: HTMLDivElement = document.getElementById('tasks-opened') as HTMLDivElement;
   private _opened: TaskProps[] = [];
 
-  private _inProcessContainer: HTMLDivElement;
+  private _inProcessContainer: HTMLDivElement = document.getElementById('tasks-in-process') as HTMLDivElement;
   private _inProcess: TaskProps[] = [];
 
-  private _doneContainer: HTMLDivElement;
+  private _doneContainer: HTMLDivElement = document.getElementById('tasks-done') as HTMLDivElement;
   private _done: TaskProps[] = [];
 
   constructor() {
+    if (this.instance !== null) {
+      return this.instance;
+    }
+
     document.body.dataset.theme = this.colorMode;
 
-    this._openedContainer = document.getElementById('tasks-opened') as HTMLDivElement;
-
+    // ////
     this._openedContainer.ondrop = (e) => {
       e.preventDefault();
       const draggingData = JSON.parse(e.dataTransfer?.getData(TASK_IN_DRUG_ACTION) || '') as TaskProps;
@@ -48,8 +57,6 @@ export class Manager {
     };
 
     // ////
-    this._inProcessContainer = document.getElementById('tasks-in-process') as HTMLDivElement;
-
     this._inProcessContainer.ondrop = (e) => {
       e.preventDefault();
       const draggingData = JSON.parse(e.dataTransfer?.getData(TASK_IN_DRUG_ACTION) || '') as TaskProps;
@@ -70,8 +77,6 @@ export class Manager {
     };
 
     // ////
-    this._doneContainer = document.getElementById('tasks-done') as HTMLDivElement;
-
     this._doneContainer.ondrop = (e) => {
       e.preventDefault();
       const draggingData = JSON.parse(e.dataTransfer?.getData(TASK_IN_DRUG_ACTION) || '') as TaskProps;
@@ -106,6 +111,8 @@ export class Manager {
       this._done = doneTasks;
       this.renderDone();
     });
+
+    this.instance = this;
   }
 
   setColorMode() {
@@ -245,9 +252,5 @@ export class Manager {
     task.append(taskHeader, descriptionEl, info);
 
     return task;
-  }
-
-  get mode() {
-    return this.colorMode;
   }
 }

@@ -30,7 +30,6 @@ headings.classList.add(styles.headings);
 taskContainer.prepend(headings);
 
 const tm = new Manager();
-
 const dialog = new Dialog();
 
 const form = new Form({
@@ -38,10 +37,11 @@ const form = new Form({
   createTask: tm.create.bind(tm),
 });
 
-dialog.setContent(form.renderForm());
-
 const formButton = new Button('New task').render();
-formButton.onclick = () => dialog.open.call(dialog);
+formButton.onclick = () => {
+  dialog.setContent(form.renderForm());
+  dialog.open.call(dialog);
+};
 
 const colorModeButton = new Button('Mode').render();
 colorModeButton.onclick = () => tm.setColorMode.call(tm);
