@@ -9,6 +9,12 @@ interface BadgeProps extends Partial<HTMLSpanElement> {
   bordered?: boolean;
 }
 
+/**
+ * @constructor
+ * @param {BadgeProps} props - import type { BadgeProps } from '@src/components/Badge'
+ *
+ * UI Component
+ */
 export class Badge {
   private badge = document.createElement('span');
 

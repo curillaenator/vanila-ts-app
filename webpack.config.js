@@ -1,11 +1,18 @@
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-// const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
+require('dotenv').config();
+
+console.table({
+  mode: process.env.MODE,
+  publicPath: process.env.PUBLIC_PATH,
+});
+
 module.exports = {
-  mode: 'development',
+  mode: process.env.MODE,
 
   devtool: 'source-map',
 
@@ -20,8 +27,8 @@ module.exports = {
 
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: '[name].bundle.js',
-    publicPath: '/vanila-ts-app/',
+    filename: '[name].bundle.[fullhash].js',
+    publicPath: process.env.PUBLIC_PATH,
     clean: true,
   },
 
@@ -36,9 +43,9 @@ module.exports = {
     new HTMLWebpackPlugin({
       template: './src/index.html',
     }),
-    // new CopyWebpackPlugin({
-    //   patterns: [{ from: path.resolve(__dirname, './src/public'), to: '' }],
-    // }),
+    new CopyWebpackPlugin({
+      patterns: [{ from: path.resolve(__dirname, './src/public'), to: '' }],
+    }),
     new MiniCssExtractPlugin({
       filename: '[name].[fullhash].css',
     }),

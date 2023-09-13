@@ -13,6 +13,12 @@ interface FormOptions {
   createTask: (payload: TaskProps) => void;
 }
 
+/**
+ * @constructor
+ * @param {FormOptions} options - import type { FormOptions } from '@src/components/Form'
+ *
+ * UI Component
+ */
 export class Form {
   private _form: HTMLFormElement;
   private _title?: string;
@@ -30,26 +36,30 @@ export class Form {
     const formTitle = document.createElement('div');
     const formText = document.createElement('h3');
     formText.innerText = 'Create task';
+
+    const closeButtonIcon = document.createElement('img');
+    closeButtonIcon.src = closeIcon;
+
     const closeButton = document.createElement('button');
     closeButton.classList.add(styles.iconButton);
     closeButton.onclick = (e) => {
       e.preventDefault();
       closeForm();
     };
-    const closeButtonIcon = document.createElement('img');
-    closeButtonIcon.src = closeIcon;
     closeButton.append(closeButtonIcon);
 
     formTitle.classList.add(styles.title);
     formTitle.append(formText, closeButton);
 
-    const submitButton = new Button('Create').render();
-    submitButton.type = 'submit';
-    submitButton.onclick = (e) => {
-      e.preventDefault();
-      createTask(this.getFormData());
-      closeForm();
-    };
+    const submitButton = new Button({
+      text: 'Create',
+      type: 'submit',
+      onclick: (e) => {
+        e.preventDefault();
+        createTask(this.getFormData());
+        closeForm();
+      },
+    }).render();
 
     form.append(
       formTitle,
