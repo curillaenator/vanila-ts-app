@@ -1,5 +1,21 @@
 @import '../../styles/scroll';
 
+.pageContainer {
+  width: 100%;
+  min-height: 100vh;
+  max-height: 100vh;
+  flex-shrink: 1;
+  overflow: hidden;
+}
+
+.aside {
+  flex-shrink: 0;
+  width: var(--tasks-layout-aside-w);
+  height: 100vh;
+  background-color: var(--primary-10);
+  transition: 0.2s ease;
+}
+
 .header {
   position: sticky;
   display: flex;
@@ -11,12 +27,9 @@
   width: 100%;
   padding: 24px;
   min-height: var(--header-height);
-  background-color: var(--primary);
-  background: radial-gradient(var(--header-inner-color), var(--primary));
-  box-shadow: 0 8px 16px var(--primary-20);
+  background-color: transparent;
+  border-bottom: 2px solid var(--dark-20);
   z-index: 10;
-
-  border-bottom: 2px solid var(--dark-10);
 
   .slots {
     display: flex;
@@ -40,7 +53,7 @@
     width: 100%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    transform: translateY(-75%);
+    transform: translateY(-60%);
     z-index: 11;
 
     .head {
@@ -56,7 +69,7 @@
     padding: 24px;
     min-height: calc(100vh - var(--header-height) - 1px);
     max-height: calc(100vh - var(--header-height) - 1px);
-    border-right: 2px solid var(--dark-10);
+    border-right: 2px solid var(--dark-20);
     overflow-x: hidden;
     overflow-y: auto;
 

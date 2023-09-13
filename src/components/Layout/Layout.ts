@@ -1,6 +1,7 @@
 import { Dialog } from '@src/components/Dialog';
 import { Badge } from '@src/components/Badge';
 
+import type { ScreenType, ColorMode } from '@src/types';
 import styles from './layout.module.scss';
 
 const COLUMN_IDS = ['tasks-opened', 'tasks-in-process', 'tasks-done'];
@@ -10,9 +11,15 @@ const COLUMN_TITLES = ['Opened', 'In process', 'Accomplished'];
  * @description Singleton providing generated layout instance
  */
 export class Layout {
-  public colorMode: 'light' | 'dark' = 'light';
-
   private instance: Layout | null = null;
+
+  public colorMode: ColorMode = 'light';
+  public screen: ScreenType = 'desktop';
+
+  private pageContainer: HTMLElement = document.createElement('div');
+
+  private aside: HTMLElement = document.createElement('aside');
+  private isAsideOpen: boolean = true;
 
   private header: HTMLElement = document.createElement('header');
   private headerRightSlots: HTMLElement[] = [];
@@ -25,6 +32,12 @@ export class Layout {
     if (this.instance) return this.instance;
 
     document.body.dataset.theme = this.colorMode;
+    document.body.style.setProperty('--tasks-layout-aside-w', '384px');
+
+    window.addEventListener('resize', this.watchWindowSize);
+
+    this.pageContainer.id = 'tasks-page';
+    this.pageContainer.classList.add(styles.pageContainer);
 
     this.header.id = 'tasks-header';
     this.header.classList.add(styles.header);
@@ -36,6 +49,9 @@ export class Layout {
         return slotContainer;
       }),
     );
+
+    this.aside.id = 'tasks-aside';
+    this.aside.classList.add(styles.aside);
 
     this.taskContainer.id = 'tasks-main';
     this.taskContainer.classList.add(styles.taskContainer);
@@ -70,14 +86,39 @@ export class Layout {
 
     this.taskContainer.append(columnHeadings, ...columns);
 
+    this.pageContainer.append(this.header, this.taskContainer);
+
     document.body.append(
-      this.header,
-      this.taskContainer,
-      // dialog must be always last
-      this.dialog.dialogNode,
+      this.aside,
+      this.pageContainer,
+      this.dialog.dialogNode, // dialog must be always last
     );
 
     this.instance = this;
+  }
+
+  private watchWindowSize() {
+    let newScreen: ScreenType;
+    const w = window.innerWidth;
+
+    switch (true) {
+      case w < 768:
+        newScreen = 'mobile';
+        break;
+      case w < 1280:
+        newScreen = 'tablet';
+        break;
+      case w < 1920:
+        newScreen = 'laptop';
+        break;
+      default:
+        newScreen = 'desktop';
+        break;
+    }
+
+    if (this.screen !== newScreen) {
+      this.screen = newScreen;
+    }
   }
 
   private renderHeaderContent() {
@@ -99,6 +140,21 @@ export class Layout {
 
   public setDialogContent(dialogContent: HTMLElement) {
     this.dialog.setContent.call(this.dialog, dialogContent);
+  }
+
+  public setAsideContent(asideContent: HTMLElement) {
+    this.aside.innerHTML = '';
+    this.aside.append(asideContent);
+  }
+
+  public toggleAside() {
+    this.isAsideOpen = !this.isAsideOpen;
+
+    if (this.isAsideOpen) {
+      document.body.style.setProperty('--tasks-layout-aside-w', '384px');
+    } else {
+      document.body.style.setProperty('--tasks-layout-aside-w', '96px');
+    }
   }
 
   public toggleDialog() {

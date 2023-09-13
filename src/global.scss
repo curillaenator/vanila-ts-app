@@ -44,6 +44,7 @@
 }
 
 $transparancies: (
+  '90': 0.9,
   '80': 0.8,
   '60': 0.6,
   '40': 0.4,
@@ -97,6 +98,8 @@ body {
 
   --header-height: 96px;
 
+  display: flex;
+  width: 100%;
   color: var(--dark);
   min-width: 1280px;
 }
@@ -108,9 +111,7 @@ body[data-theme='light'] {
   --dark: rgb(16, 16, 16);
   @include makeTransparentColors('dark', '16, 16, 16');
 
-  --header-inner-color: rgb(64, 64, 64);
-
-  background-color: var(--dark-10);
+  background: radial-gradient(var(--light), var(--dark-60));
 }
 
 body[data-theme='dark'] {
@@ -120,9 +121,7 @@ body[data-theme='dark'] {
   --dark: rgb(236, 236, 236);
   @include makeTransparentColors('dark', '236, 236, 236');
 
-  --header-inner-color: rgb(32, 32, 32);
-
-  background-color: rgb(24, 24, 24);
+  background: radial-gradient(var(--light-80), var(--light));
 }
 
 button {

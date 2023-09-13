@@ -1,0 +1,21 @@
+.menu {
+  width: 100%;
+  height: 100%;
+  border-right: 2px solid var(--dark-10);
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: var(--header-height);
+    border-bottom: 2px solid var(--dark-20);
+    padding: 24px;
+
+    .logo {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 48px;
+      color: var(--dark);
+    }
+  }
+}
