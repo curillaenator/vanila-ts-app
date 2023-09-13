@@ -3,6 +3,7 @@
   width: 32px;
   height: 32px;
   transition: opacity 0.12s ease;
+  flex-shrink: 0;
 
   & > img {
     width: 100%;

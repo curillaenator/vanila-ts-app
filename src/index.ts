@@ -14,6 +14,7 @@ layout.setAsideContent.call(
 
   new Menu({
     toggleAside: layout.toggleAside.bind(layout),
+    subscribeOnAsideToggle: layout.subscribeOnAsideToggle.bind(layout),
   }).render(),
 );
 

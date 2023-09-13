@@ -20,6 +20,7 @@ export class Layout {
 
   private aside: HTMLElement = document.createElement('aside');
   private isAsideOpen: boolean = true;
+  private asideopenSubscribers: ((isAsideOpen: boolean) => void)[] = [];
 
   private header: HTMLElement = document.createElement('header');
   private headerRightSlots: HTMLElement[] = [];
@@ -147,6 +148,10 @@ export class Layout {
     this.aside.append(asideContent);
   }
 
+  public subscribeOnAsideToggle(fn: (isAsideOpen: boolean) => void) {
+    this.asideopenSubscribers.push(fn);
+  }
+
   public toggleAside() {
     this.isAsideOpen = !this.isAsideOpen;
 
@@ -155,6 +160,8 @@ export class Layout {
     } else {
       document.body.style.setProperty('--tasks-layout-aside-w', '96px');
     }
+
+    this.asideopenSubscribers.forEach((fn) => fn(this.isAsideOpen));
   }
 
   public toggleDialog() {

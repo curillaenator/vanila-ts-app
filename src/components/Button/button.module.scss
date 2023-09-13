@@ -1,0 +1,50 @@
+.button {
+  width: fit-content;
+  height: 48px;
+  outline: none;
+  border: none;
+  border-radius: 8px;
+  padding: 8px;
+  cursor: pointer;
+  color: var(--light);
+
+  .text {
+    display: block;
+    padding: 4px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+.solid {
+  background-color: var(--dark);
+
+  &:hover {
+    background-color: var(--dark-80);
+  }
+
+  &:active {
+    background-color: var(--dark);
+  }
+}
+
+.transparent {
+  background-color: transparent;
+
+  & > svg {
+    fill: rgba(236, 236, 236, 0.6);
+  }
+
+  &:hover {
+    & > svg {
+      fill: rgba(236, 236, 236, 1);
+    }
+  }
+
+  &:active {
+    & > svg {
+      fill: rgba(236, 236, 236, 0.8);
+    }
+  }
+}

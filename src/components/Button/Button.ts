@@ -1,8 +1,9 @@
-import styles from './styles.module.scss';
+import styles from './button.module.scss';
 
 interface ButtonProps extends Partial<HTMLButtonElement> {
   text?: string;
   active?: boolean;
+  appearance?: 'solid' | 'transparent';
 }
 
 /**
@@ -15,15 +16,15 @@ export class Button {
   private button = document.createElement('button');
 
   constructor(props: ButtonProps) {
-    const { text, ...rest } = props;
+    const { text, appearance = 'solid', ...rest } = props;
 
     Object.entries(rest).forEach(([propName, propValue]) => {
       // @ts-ignore
       this.button[propName] = propValue;
     });
 
-    this.button.innerText = text || '';
-    this.button.classList.add(styles.button);
+    this.button.innerHTML = `<span class="${styles.text}">${text}</span>`;
+    this.button.classList.add(styles.button, styles[appearance]);
 
     return this;
   }
