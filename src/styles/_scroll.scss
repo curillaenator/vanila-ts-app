@@ -7,7 +7,7 @@
     }
 
     &-thumb {
-      background-color: var(--dark-40);
+      background-color: var(--tasks-global-scroll-c);
       width: 4px;
       border-radius: 2px;
 
@@ -16,7 +16,7 @@
       }
 
       &:hover {
-        background-color: var(--dark-60);
+        background-color: var(--tasks-global-scroll-c-h);
       }
     }
 

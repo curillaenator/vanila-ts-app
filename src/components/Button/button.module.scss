@@ -6,7 +6,7 @@
   border-radius: 8px;
   padding: 8px;
   cursor: pointer;
-  color: var(--light);
+  color: rgb(236, 236, 236);
 
   .text {
     display: block;
@@ -18,14 +18,14 @@
 }
 
 .solid {
-  background-color: var(--dark);
+  background-color: var(--primary);
 
   &:hover {
-    background-color: var(--dark-80);
+    background-color: var(--primary-80);
   }
 
   &:active {
-    background-color: var(--dark);
+    background-color: var(--primary);
   }
 }
 

@@ -75,8 +75,10 @@ $transparancies: (
 }
 
 body {
-  --primary: rgb(16, 16, 16);
-  @include makeTransparentColors('primary', '16, 16, 16');
+  // --primary: rgb(16, 16, 16);
+  // @include makeTransparentColors('primary', '16, 16, 16');
+  --primary: rgb(51, 26, 89);
+  @include makeTransparentColors('primary', '51, 26, 89');
 
   --secondary: rgb(32, 32, 32);
   @include makeTransparentColors('secondary', '32, 32, 32');
@@ -111,7 +113,13 @@ body[data-theme='light'] {
   --dark: rgb(16, 16, 16);
   @include makeTransparentColors('dark', '16, 16, 16');
 
-  background: radial-gradient(var(--light), var(--dark-60));
+  --tasks-global-scroll-c: var(--primary-40);
+  --tasks-global-scroll-c-h: var(--primary-60);
+  --tasks-global-bdc: var(--primary-20);
+  --tasks-global-border: 2px solid var(--primary-20);
+  --tasks-aside-bgc: var(--primary-80);
+
+  background: radial-gradient(var(--light), var(--primary-60));
 }
 
 body[data-theme='dark'] {
@@ -120,6 +128,12 @@ body[data-theme='dark'] {
 
   --dark: rgb(236, 236, 236);
   @include makeTransparentColors('dark', '236, 236, 236');
+
+  --tasks-global-scroll-c: var(--dark-40);
+  --tasks-global-scroll-c-h: var(--dark-60);
+  --tasks-global-bdc: var(--dark-10);
+  --tasks-global-border: 2px solid var(--dark-10);
+  --tasks-aside-bgc: transparent;
 
   background: radial-gradient(var(--light-80), var(--light));
 }
