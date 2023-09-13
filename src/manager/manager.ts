@@ -7,17 +7,15 @@ import type { TaskProps } from '@src/types';
 import { checkExpiry } from './utils';
 
 import binIcon from '@src/assets/binIcon.png';
-import styles from '../styles.module.scss';
+
+import styles from './task.module.scss';
 
 const TASK_IN_DRUG_ACTION = 'TASK_IN_DRUG_ACTION';
 
 /**
- * Singleton
- * @constructor
+ * Singleton providing task management
  */
 export class Manager {
-  public colorMode: 'light' | 'dark' = 'light';
-
   private instance: Manager | null = null;
 
   private _openedContainer: HTMLDivElement = document.getElementById('tasks-opened') as HTMLDivElement;
@@ -33,8 +31,6 @@ export class Manager {
     if (this.instance !== null) {
       return this.instance;
     }
-
-    document.body.dataset.theme = this.colorMode;
 
     // ////
     this._openedContainer.ondrop = (e) => {
@@ -113,11 +109,6 @@ export class Manager {
     });
 
     this.instance = this;
-  }
-
-  setColorMode() {
-    this.colorMode = this.colorMode === 'light' ? 'dark' : 'light';
-    document.body.dataset.theme = this.colorMode;
   }
 
   renderOpened() {
@@ -225,7 +216,9 @@ export class Manager {
 
     taskHeaderDeleteButton.classList.add(styles.iconButton);
     taskHeaderDeleteButton.append(taskHeaderDeleteButtonIcon);
-    taskHeaderDeleteButton.onclick = () => this.delete(id);
+    taskHeaderDeleteButton.onclick = () => {
+      if (confirm(`Delete task ${title} ?`)) this.delete(id);
+    };
 
     taskHeader.append(taskHeaderTitle);
     taskHeader.append(taskHeaderDeleteButton);

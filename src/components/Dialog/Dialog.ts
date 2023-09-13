@@ -1,6 +1,7 @@
 import styles from './dialog.module.scss';
 
 export interface DialogProps extends Partial<HTMLDivElement> {
+  portalId?: string;
   openByDefault?: boolean;
 }
 
@@ -23,11 +24,11 @@ export class Dialog {
       return this.instance;
     }
 
-    const { openByDefault = false, ...rest } = props || {};
+    const { openByDefault = false, portalId = 'dialog-portal', ...rest } = props || {};
 
     this.isOpen = openByDefault;
 
-    this.container.id = 'tasks-modal-portal';
+    this.container.id = portalId;
     this.container.classList.add(styles.container);
     this.content.classList.add(styles.content);
 
@@ -39,7 +40,7 @@ export class Dialog {
     this.overlay.classList.add(styles.overlay);
     this.overlay.onclick = () => this.close.call(this);
 
-    document.body.append(this.container);
+    // document.body.append(this.container);
 
     this.instance = this;
   }
@@ -61,7 +62,19 @@ export class Dialog {
     }, 200);
   }
 
+  toggleDialog() {
+    if (this.isOpen) {
+      this.close();
+    } else {
+      this.open();
+    }
+  }
+
   setContent(dialogContent: HTMLElement) {
     this.content.append(dialogContent);
+  }
+
+  get dialogNode() {
+    return this.container;
   }
 }

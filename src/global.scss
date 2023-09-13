@@ -43,6 +43,24 @@
   font-variant: normal;
 }
 
+$transparancies: (
+  '80': 0.8,
+  '60': 0.6,
+  '40': 0.4,
+  '20': 0.2,
+  '10': 0.1,
+);
+
+@mixin makeTransparentColors($prefix, $value) {
+  @each $name, $tp in $transparancies {
+    --#{$prefix}-#{$name}: #{'rgba(' + $value + ',' + $tp + ')'};
+  }
+}
+
+:root {
+  overflow: hidden;
+}
+
 *,
 *:after,
 *:before {
@@ -53,6 +71,58 @@
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
+}
+
+body {
+  --primary: rgb(16, 16, 16);
+  @include makeTransparentColors('primary', '16, 16, 16');
+
+  --secondary: rgb(32, 32, 32);
+  @include makeTransparentColors('secondary', '32, 32, 32');
+
+  --info: rgb(51, 136, 255);
+  @include makeTransparentColors('info', '51, 136, 255');
+
+  --positive: rgb(95, 186, 34);
+  @include makeTransparentColors('positive', '95, 186, 34');
+
+  --attention: rgb(255, 137, 11);
+  @include makeTransparentColors('attention', '255, 137, 11');
+
+  --negative: rgb(223, 17, 17);
+  @include makeTransparentColors('negative', '223, 17, 17');
+
+  --medium: rgb(128, 128, 128);
+  @include makeTransparentColors('medium', '128, 128, 128');
+
+  --header-height: 96px;
+
+  color: var(--dark);
+  min-width: 1280px;
+}
+
+body[data-theme='light'] {
+  --light: rgb(255, 255, 255);
+  @include makeTransparentColors('light', '255, 255, 255');
+
+  --dark: rgb(16, 16, 16);
+  @include makeTransparentColors('dark', '16, 16, 16');
+
+  --header-inner-color: rgb(64, 64, 64);
+
+  background-color: var(--dark-10);
+}
+
+body[data-theme='dark'] {
+  --light: rgb(16, 16, 16);
+  @include makeTransparentColors('light', '16, 16, 16');
+
+  --dark: rgb(236, 236, 236);
+  @include makeTransparentColors('dark', '236, 236, 236');
+
+  --header-inner-color: rgb(32, 32, 32);
+
+  background-color: rgb(24, 24, 24);
 }
 
 button {

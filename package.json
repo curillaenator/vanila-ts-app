@@ -6,8 +6,8 @@
   "main": "./src/index.js",
   "license": "MIT",
   "scripts": {
-    "start": "webpack serve --open",
-    "build": "webpack --mode=production --no-devtool",
+    "start": "MODE=development PUBLIC_PATH=/ webpack serve --open",
+    "build": "webpack --no-devtool",
     "deploy": "yarn build && npx gh-pages -d build",
     "prepare": "npx husky install"
   },
@@ -24,6 +24,7 @@
     "clean-webpack-plugin": "4.0.0",
     "copy-webpack-plugin": "11.0.0",
     "css-loader": "6.8.1",
+    "dotenv": "16.3.1",
     "eslint": "8.49.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^9.0.0",
