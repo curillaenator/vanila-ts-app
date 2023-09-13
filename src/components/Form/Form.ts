@@ -107,7 +107,7 @@ export class Form {
     return dateInput;
   }
 
-  renderForm() {
+  render() {
     return this._form;
   }
 

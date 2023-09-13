@@ -24,6 +24,8 @@ export class Button {
 
     this.button.innerText = text || '';
     this.button.classList.add(styles.button);
+
+    return this;
   }
 
   render() {

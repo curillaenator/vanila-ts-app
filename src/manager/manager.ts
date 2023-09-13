@@ -13,7 +13,7 @@ import styles from './task.module.scss';
 const TASK_IN_DRUG_ACTION = 'TASK_IN_DRUG_ACTION';
 
 /**
- * Singleton providing task management
+ * @description Singleton providing task management, has to be called after Layout instance is created
  */
 export class Manager {
   private instance: Manager | null = null;

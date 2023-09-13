@@ -24,7 +24,7 @@ layout.setHeaderRightSlot.call(
   new Button({
     text: 'Create',
     onclick: () => {
-      layout.setDialogContent(form.renderForm());
+      layout.setDialogContent(form.render.call(form));
       layout.toggleDialog();
     },
   }).render(),

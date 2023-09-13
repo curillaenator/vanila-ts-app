@@ -7,7 +7,7 @@ const COLUMN_IDS = ['tasks-opened', 'tasks-in-process', 'tasks-done'];
 const COLUMN_TITLES = ['Opened', 'In process', 'Accomplished'];
 
 /**
- * Singleton providing generated layout instance
+ * @description Singleton providing generated layout instance
  */
 export class Layout {
   public colorMode: 'light' | 'dark' = 'light';
