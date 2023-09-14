@@ -2,7 +2,7 @@
 
 This is a fun PET project using **classic HTML/CSS/JS stack** where I do React things without React itself just because I'm curiuous ;-)
 
-## Watch dedloyed app
+## Watch deployed app
 
 [Right here!](https://curillaenator.github.io/vanila-ts-app/)
 
