@@ -7,12 +7,7 @@ import styles from './layout.module.scss';
 const COLUMN_IDS = ['tasks-opened', 'tasks-in-process', 'tasks-done'];
 const COLUMN_TITLES = ['Opened', 'In process', 'Accomplished'];
 
-/**
- * @description Singleton providing generated layout instance
- */
-export class Layout {
-  private initialized: boolean = false;
-
+class Layout {
   public colorMode: ColorMode = 'light';
   private colorModeSubscribers: ((cMode: ColorMode) => void)[] = [];
 
@@ -32,8 +27,6 @@ export class Layout {
   private dialog = new Dialog({ portalId: 'tasks-modal-portal' });
 
   constructor() {
-    if (this.initialized) return this;
-
     document.body.dataset.theme = this.colorMode;
     document.body.style.setProperty('--tasks-layout-aside-w', '384px');
 
@@ -96,8 +89,6 @@ export class Layout {
       this.pageContainer,
       this.dialog.dialogNode, // dialog must be always last
     );
-
-    this.initialized = true;
   }
 
   private watchWindowSize() {
@@ -150,11 +141,11 @@ export class Layout {
     this.aside.append(asideContent);
   }
 
-  public subscribeOnAsideToggle(fn: (isAsideOpen: boolean) => void) {
+  public observeToggleAside(fn: (isAsideOpen: boolean) => void) {
     this.asideopenSubscribers.push(fn);
   }
 
-  public subscribeOnColorMode(fn: (cMode: ColorMode) => void) {
+  public observeColorMode(fn: (cMode: ColorMode) => void) {
     this.colorModeSubscribers.push(fn);
   }
 
@@ -192,3 +183,8 @@ export class Layout {
     this.renderHeaderContent();
   }
 }
+
+/**
+ * @description Singleton providing generated layout instance
+ */
+export const layout = new Layout();

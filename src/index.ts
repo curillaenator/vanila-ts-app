@@ -1,22 +1,21 @@
-import { Manager } from './manager/manager';
-import { Layout } from '@src/components/Layout';
+// START imports order matters
+import layout from '@src/components/Layout'; // must be imported first
+import manager from '@src/manager';
+import router from '@src/router';
+// END imports order matters
 import { Menu } from '@src/components/Menu';
 import { Form } from '@src/components/Form';
 import { Button } from '@src/components/Button';
 
 import { COLOR_MODES_ASSOC } from '@src/shared/constants';
-
 import './global.scss';
-
-const layout = new Layout();
-const tm = new Manager();
 
 layout.setAsideContent.call(
   layout,
 
   new Menu({
     toggleAside: layout.toggleAside.bind(layout),
-    subscribeOnAsideToggle: layout.subscribeOnAsideToggle.bind(layout),
+    subscribeOnAsideToggle: layout.observeToggleAside.bind(layout),
   }).render(),
 );
 
@@ -26,17 +25,34 @@ const colorModeButton = new Button({
   onclick: layout.toggleColorMode.bind(layout),
 });
 
-layout.subscribeOnColorMode((cm) => colorModeButton.updateText(COLOR_MODES_ASSOC[cm]));
+layout.observeColorMode((cm) => colorModeButton.updateText(COLOR_MODES_ASSOC[cm]));
+// router.observeURL({
+//   initiator: 'layout',
+//   callback: layout.toggleColorMode.bind(layout),
+// });
 
 const form = new Form({
   closeForm: layout.toggleDialog.bind(layout),
-  createTask: tm.create.bind(tm),
+  createTask: manager.create.bind(manager),
 });
 
 layout.setHeaderLeftSlot.call(layout, colorModeButton.render());
 
 layout.setHeaderRightSlot.call(
   layout,
+
+  new Button({
+    text: 'Authenticate (route without page reload)',
+    onclick: () => {
+      router.navigate({
+        payload: 'Authenticate payload',
+        pageTitle: 'Authenticate',
+        queries: {
+          page: 'auth',
+        },
+      });
+    },
+  }).render(),
 
   new Button({
     text: 'Create',

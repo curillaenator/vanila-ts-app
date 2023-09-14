@@ -12,10 +12,7 @@ import styles from './task.module.scss';
 
 const TASK_IN_DRUG_ACTION = 'TASK_IN_DRUG_ACTION';
 
-/**
- * @description Singleton providing task management, has to be called after Layout instance is created
- */
-export class Manager {
+class Manager {
   private instance: Manager | null = null;
 
   private _openedContainer: HTMLDivElement = document.getElementById('tasks-opened') as HTMLDivElement;
@@ -247,3 +244,8 @@ export class Manager {
     return task;
   }
 }
+
+/**
+ * @description Singleton providing task management, has to be called after Layout instance is created
+ */
+export const manager = new Manager();
