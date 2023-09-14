@@ -23,19 +23,17 @@ layout.setAsideContent.call(
 const colorModeButton = new Button({
   id: 'tasks-color-mode-button',
   text: 'Dark',
-  onclick: () => {
-    layout.toggleColorMode.call(layout);
-  },
+  onclick: layout.toggleColorMode.bind(layout),
 });
 
 layout.subscribeOnColorMode((cm) => colorModeButton.updateText(COLOR_MODES_ASSOC[cm]));
-
-layout.setHeaderLeftSlot.call(layout, colorModeButton.render());
 
 const form = new Form({
   closeForm: layout.toggleDialog.bind(layout),
   createTask: tm.create.bind(tm),
 });
+
+layout.setHeaderLeftSlot.call(layout, colorModeButton.render());
 
 layout.setHeaderRightSlot.call(
   layout,
