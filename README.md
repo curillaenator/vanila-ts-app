@@ -1,30 +1,39 @@
-# Simple task manager
+# Simple task manager for browsers
 
 This is a fun PET project using **classic HTML/CSS/JS stack** where I do React things without React itself just because I'm curiuous ;-)
 
-## Description
+## Watch dedloyed app
 
-With this app I paricticed
+[Right here!](https://curillaenator.github.io/vanila-ts-app/)
 
-## Stack
+## Main goal of the app is me practicing
+
+- DOM manipulations
+  > initial index.html is empty, DOM is fulfilled via scripts
+- application design patterns
+  > singleton, state, observer, fabrics... atempted to do it write without any framework!
+- Class UI components
+  > every UI element in DOM is controlled class component appending to DOM when required
+
+## Stack is bare minimum
 
 - Webpack
 - HTML
-- CSS/Sass
+- CSS/Sass modules
 - Typesript
 
 ## Dev environment
 
 - Babel
   > as Typescript compiler
-- Husky
-  > as Elisnt/Prettier to prevent me commiting slappy code
+- Husky + Lint-staged
+  > as Elisnt/Prettier runner to prevent me commiting slappy code =)
 - Yarn 3
   > to have useful features while package managing
 
-[Watch dedloyed app](https://curillaenator.github.io/vanila-ts-app/)
-
 ## Local run
+
+<p style='color:red'>You'll probably will need .env to run it localy</p>
 
 - yarn
 - yarn start
