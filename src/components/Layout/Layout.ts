@@ -164,7 +164,7 @@ export class Layout {
     if (this.isAsideOpen) {
       document.body.style.setProperty('--tasks-layout-aside-w', '384px');
     } else {
-      document.body.style.setProperty('--tasks-layout-aside-w', '96px');
+      document.body.style.setProperty('--tasks-layout-aside-w', '98px');
     }
 
     this.asideopenSubscribers.forEach((fn) => fn(this.isAsideOpen));
