@@ -33,7 +33,7 @@ This is a fun PET project using **classic HTML/CSS/JS stack** where I do React t
 
 ## Local run
 
-<p style='color:red'>You'll probably will need .env to run it localy</p>
+**You probably will need .env to run it localy**
 
 - yarn
 - yarn start
