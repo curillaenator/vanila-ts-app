@@ -6,7 +6,7 @@ import { Button } from '@src/components/Button';
 
 import { StatusType, TaskProps } from '@src/types';
 
-import closeIcon from '@src/assets/closeIcon.png';
+import { CLOSE_ICON } from './constants';
 
 interface FormOptions {
   closeForm: () => void;
@@ -37,16 +37,19 @@ export class Form {
     const formText = document.createElement('h3');
     formText.innerText = 'Create task';
 
-    const closeButtonIcon = document.createElement('img');
-    closeButtonIcon.src = closeIcon;
+    // const closeButtonIcon = document.createElement('img');
+    // closeButtonIcon.src = closeIcon;
 
-    const closeButton = document.createElement('button');
-    closeButton.classList.add(styles.iconButton);
-    closeButton.onclick = (e) => {
-      e.preventDefault();
-      closeForm();
-    };
-    closeButton.append(closeButtonIcon);
+    const closeButton = new Button({
+      type: 'button',
+      onclick: (e) => {
+        e.preventDefault();
+        closeForm();
+      },
+    }).render();
+    closeButton.innerHTML = CLOSE_ICON;
+    // closeButton.classList.add(styles.iconButton);
+    // closeButton.append(closeButtonIcon);
 
     formTitle.classList.add(styles.title);
     formTitle.append(formText, closeButton);

@@ -29,6 +29,10 @@ export class Button {
     return this;
   }
 
+  updateText(newText: string) {
+    this.button.innerHTML = `<span class="${styles.text}">${newText}</span>`;
+  }
+
   render() {
     return this.button;
   }

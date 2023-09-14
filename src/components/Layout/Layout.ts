@@ -11,9 +11,11 @@ const COLUMN_TITLES = ['Opened', 'In process', 'Accomplished'];
  * @description Singleton providing generated layout instance
  */
 export class Layout {
-  private instance: Layout | null = null;
+  private initialized: boolean = false;
 
   public colorMode: ColorMode = 'light';
+  private colorModeSubscribers: ((cMode: ColorMode) => void)[] = [];
+
   public screen: ScreenType = 'desktop';
 
   private pageContainer: HTMLElement = document.createElement('div');
@@ -30,7 +32,7 @@ export class Layout {
   private dialog = new Dialog({ portalId: 'tasks-modal-portal' });
 
   constructor() {
-    if (this.instance) return this.instance;
+    if (this.initialized) return this;
 
     document.body.dataset.theme = this.colorMode;
     document.body.style.setProperty('--tasks-layout-aside-w', '384px');
@@ -95,7 +97,7 @@ export class Layout {
       this.dialog.dialogNode, // dialog must be always last
     );
 
-    this.instance = this;
+    this.initialized = true;
   }
 
   private watchWindowSize() {
@@ -152,6 +154,10 @@ export class Layout {
     this.asideopenSubscribers.push(fn);
   }
 
+  public subscribeOnColorMode(fn: (cMode: ColorMode) => void) {
+    this.colorModeSubscribers.push(fn);
+  }
+
   public toggleAside() {
     this.isAsideOpen = !this.isAsideOpen;
 
@@ -170,7 +176,10 @@ export class Layout {
 
   public toggleColorMode() {
     this.colorMode = this.colorMode === 'light' ? 'dark' : 'light';
+
     document.body.dataset.theme = this.colorMode;
+
+    this.colorModeSubscribers.forEach((fn) => fn(this.colorMode));
   }
 
   public setHeaderLeftSlot(...elements: HTMLElement[]) {

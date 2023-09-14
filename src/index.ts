@@ -4,6 +4,8 @@ import { Menu } from '@src/components/Menu';
 import { Form } from '@src/components/Form';
 import { Button } from '@src/components/Button';
 
+import { COLOR_MODES_ASSOC } from '@src/shared/constants';
+
 import './global.scss';
 
 const layout = new Layout();
@@ -18,14 +20,17 @@ layout.setAsideContent.call(
   }).render(),
 );
 
-layout.setHeaderLeftSlot.call(
-  layout,
+const colorModeButton = new Button({
+  id: 'tasks-color-mode-button',
+  text: 'Dark',
+  onclick: () => {
+    layout.toggleColorMode.call(layout);
+  },
+});
 
-  new Button({
-    text: 'Mode',
-    onclick: layout.toggleColorMode.bind(layout),
-  }).render(),
-);
+layout.subscribeOnColorMode((cm) => colorModeButton.updateText(COLOR_MODES_ASSOC[cm]));
+
+layout.setHeaderLeftSlot.call(layout, colorModeButton.render());
 
 const form = new Form({
   closeForm: layout.toggleDialog.bind(layout),

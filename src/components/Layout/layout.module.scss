@@ -12,8 +12,13 @@
   flex-shrink: 0;
   width: var(--tasks-layout-aside-w);
   height: 100vh;
-  background-color: var(--tasks-aside-bgc);
-  transition: 0.2s ease;
+  transition: width 0.2s ease;
+
+  background:
+    no-repeat url('./assets/asideTexture.png'),
+    var(--tasks-aside-bgc);
+  background-position: center;
+  background-size: cover;
 }
 
 .header {
