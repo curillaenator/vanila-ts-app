@@ -11,7 +11,7 @@ This is a fun PET project using **classic HTML/CSS/JS stack** where I do React t
 - DOM manipulations
   > initial index.html is empty, DOM is fulfilled via scripts
 - application design patterns
-  > singleton, state, observer, fabrics... atempted to do it write without any framework!
+  > singleton, state, observer, fabrics... atempted to do it right without any frameworks!
 - Class UI components
   > every UI element in DOM is controlled class component appending to DOM when required
 
