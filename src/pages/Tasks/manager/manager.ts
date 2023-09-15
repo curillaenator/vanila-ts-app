@@ -12,22 +12,28 @@ import styles from './task.module.scss';
 
 const TASK_IN_DRUG_ACTION = 'TASK_IN_DRUG_ACTION';
 
-class Manager {
-  private instance: Manager | null = null;
+interface ManagerProps {
+  openedContainer: HTMLDivElement;
+  inProcessContainer: HTMLDivElement;
+  doneContainer: HTMLDivElement;
+}
 
-  private _openedContainer: HTMLDivElement = document.getElementById('tasks-opened') as HTMLDivElement;
+export class Manager {
+  private _openedContainer: HTMLDivElement;
   private _opened: TaskProps[] = [];
 
-  private _inProcessContainer: HTMLDivElement = document.getElementById('tasks-in-process') as HTMLDivElement;
+  private _inProcessContainer: HTMLDivElement;
   private _inProcess: TaskProps[] = [];
 
-  private _doneContainer: HTMLDivElement = document.getElementById('tasks-done') as HTMLDivElement;
+  private _doneContainer: HTMLDivElement;
   private _done: TaskProps[] = [];
 
-  constructor() {
-    if (this.instance !== null) {
-      return this.instance;
-    }
+  constructor(props: ManagerProps) {
+    const { openedContainer, inProcessContainer, doneContainer } = props;
+
+    this._openedContainer = openedContainer;
+    this._inProcessContainer = inProcessContainer;
+    this._doneContainer = doneContainer;
 
     // ////
     this._openedContainer.ondrop = (e) => {
@@ -104,8 +110,6 @@ class Manager {
       this._done = doneTasks;
       this.renderDone();
     });
-
-    this.instance = this;
   }
 
   renderOpened() {
@@ -248,4 +252,4 @@ class Manager {
 /**
  * @description Singleton providing task management, has to be called after Layout instance is created
  */
-export const manager = new Manager();
+// export const manager = new Manager();

@@ -1,13 +1,17 @@
 import { Dialog } from '@src/components/Dialog';
-import { Badge } from '@src/components/Badge';
+// import { Badge } from '@src/components/Badge';
 
 import type { ScreenType, ColorMode } from '@src/types';
 import styles from './layout.module.scss';
 
-const COLUMN_IDS = ['tasks-opened', 'tasks-in-process', 'tasks-done'];
-const COLUMN_TITLES = ['Opened', 'In process', 'Accomplished'];
+// const COLUMN_IDS = ['tasks-opened', 'tasks-in-process', 'tasks-done'];
+// const COLUMN_TITLES = ['Opened', 'In process', 'Accomplished'];
 
-class Layout {
+/**
+ * @description Singleton providing generated layout instance
+ */
+
+export class Layout {
   public colorMode: ColorMode = 'light';
   private colorModeSubscribers: ((cMode: ColorMode) => void)[] = [];
 
@@ -23,19 +27,20 @@ class Layout {
   private headerRightSlots: HTMLElement[] = [];
   private headerLeftSlots: HTMLElement[] = [];
 
-  private taskContainer: HTMLElement = document.createElement('main');
-  private dialog = new Dialog({ portalId: 'tasks-modal-portal' });
+  private dialog = new Dialog({ portalId: 'app-modal-portal' });
+
+  private contentContainer: HTMLElement = document.createElement('main');
 
   constructor() {
     document.body.dataset.theme = this.colorMode;
-    document.body.style.setProperty('--tasks-layout-aside-w', '384px');
+    document.body.style.setProperty('--app-layout-aside-w', '384px');
 
     window.addEventListener('resize', this.watchWindowSize);
 
-    this.pageContainer.id = 'tasks-page';
+    this.pageContainer.id = 'app-page';
     this.pageContainer.classList.add(styles.pageContainer);
 
-    this.header.id = 'tasks-header';
+    this.header.id = 'app-header';
     this.header.classList.add(styles.header);
     this.header.append(
       ...['left', 'right'].map((slot) => {
@@ -46,49 +51,20 @@ class Layout {
       }),
     );
 
-    this.aside.id = 'tasks-aside';
+    this.aside.id = 'app-aside';
     this.aside.classList.add(styles.aside);
 
-    this.taskContainer.id = 'tasks-main';
-    this.taskContainer.classList.add(styles.taskContainer);
+    this.contentContainer.id = 'app-main';
 
-    const columnHeadings = document.createElement('div');
-    columnHeadings.classList.add(styles.headings);
-
-    const columnHeadingsTitles = COLUMN_TITLES.map((colTitle) => {
-      const heading = document.createElement('div');
-      heading.classList.add(styles.head);
-
-      heading.append(
-        new Badge({
-          title: colTitle,
-          appearance: 'white',
-          size: 'large',
-          bordered: true,
-        }).render(),
-      );
-
-      return heading;
-    });
-
-    columnHeadings.append(...columnHeadingsTitles);
-
-    const columns = COLUMN_IDS.map((colId) => {
-      const column = document.createElement('div');
-      column.id = colId;
-      column.classList.add(styles.column);
-      return column;
-    });
-
-    this.taskContainer.append(columnHeadings, ...columns);
-
-    this.pageContainer.append(this.header, this.taskContainer);
+    this.pageContainer.append(this.header, this.contentContainer);
 
     document.body.append(
       this.aside,
       this.pageContainer,
       this.dialog.dialogNode, // dialog must be always last
     );
+
+    return this;
   }
 
   private watchWindowSize() {
@@ -141,6 +117,11 @@ class Layout {
     this.aside.append(asideContent);
   }
 
+  public setMainContent(mainContent: HTMLElement) {
+    this.contentContainer.innerHTML = '';
+    this.contentContainer.append(mainContent);
+  }
+
   public observeToggleAside(fn: (isAsideOpen: boolean) => void) {
     this.asideopenSubscribers.push(fn);
   }
@@ -153,9 +134,9 @@ class Layout {
     this.isAsideOpen = !this.isAsideOpen;
 
     if (this.isAsideOpen) {
-      document.body.style.setProperty('--tasks-layout-aside-w', '384px');
+      document.body.style.setProperty('--app-layout-aside-w', '384px');
     } else {
-      document.body.style.setProperty('--tasks-layout-aside-w', '98px');
+      document.body.style.setProperty('--app-layout-aside-w', '98px');
     }
 
     this.asideopenSubscribers.forEach((fn) => fn(this.isAsideOpen));

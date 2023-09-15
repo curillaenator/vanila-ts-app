@@ -113,12 +113,12 @@ body[data-theme='light'] {
   --dark: rgb(16, 16, 16);
   @include makeTransparentColors('dark', '16, 16, 16');
 
-  --tasks-global-scroll-c: var(--primary-40);
-  --tasks-global-scroll-c-h: var(--primary-60);
+  --app-global-scroll-c: var(--primary-40);
+  --app-global-scroll-c-h: var(--primary-60);
 
-  --tasks-global-bdc: var(--primary-20);
-  --tasks-global-border: 2px solid var(--primary-20);
-  --tasks-aside-bgc: var(--primary-80);
+  --app-global-bdc: var(--primary-20);
+  --app-global-border: 2px solid var(--primary-20);
+  --app-aside-bgc: var(--primary-80);
 
   background: radial-gradient(var(--light), var(--primary-60));
 }
@@ -130,12 +130,12 @@ body[data-theme='dark'] {
   --dark: rgb(236, 236, 236);
   @include makeTransparentColors('dark', '236, 236, 236');
 
-  --tasks-global-scroll-c: var(--light-80);
-  --tasks-global-scroll-c-h: var(--light);
+  --app-global-scroll-c: var(--light-80);
+  --app-global-scroll-c-h: var(--light);
 
-  --tasks-global-bdc: var(--dark-10);
-  --tasks-global-border: 2px solid var(--dark-10);
-  --tasks-aside-bgc: transparent;
+  --app-global-bdc: var(--dark-10);
+  --app-global-border: 2px solid var(--dark-10);
+  --app-aside-bgc: transparent;
 
   background: radial-gradient(var(--light-80), var(--light));
 }

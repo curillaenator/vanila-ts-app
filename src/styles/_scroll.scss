@@ -7,7 +7,7 @@
     }
 
     &-thumb {
-      background-color: var(--tasks-global-scroll-c);
+      background-color: var(--app-global-scroll-c);
       width: 4px;
       border-radius: 2px;
 
@@ -16,7 +16,7 @@
       }
 
       &:hover {
-        background-color: var(--tasks-global-scroll-c-h);
+        background-color: var(--app-global-scroll-c-h);
       }
     }
 

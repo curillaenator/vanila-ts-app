@@ -31,7 +31,7 @@ export class Menu {
       this.container[propName] = propValue;
     });
 
-    this.container.id = 'tasks-aside-menu';
+    this.container.id = 'app-aside-menu';
     this.container.classList.add(styles.menu);
 
     this.header.classList.add(styles.header);

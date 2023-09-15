@@ -10,13 +10,13 @@
 
 .aside {
   flex-shrink: 0;
-  width: var(--tasks-layout-aside-w);
+  width: var(--app-layout-aside-w);
   height: 100vh;
   transition: width 0.2s ease;
 
   background:
     no-repeat url('./assets/asideTexture.png'),
-    var(--tasks-aside-bgc);
+    var(--app-aside-bgc);
   background-position: center;
   background-size: cover;
 }
@@ -33,7 +33,7 @@
   padding: 24px;
   min-height: var(--header-height);
   background-color: transparent;
-  border-bottom: var(--tasks-global-border);
+  border-bottom: var(--app-global-border);
   z-index: 10;
 
   .slots {
@@ -41,47 +41,5 @@
     align-items: center;
     gap: 24px;
     width: fit-content;
-  }
-}
-
-.taskContainer {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  min-height: calc(100vh - var(--header-height) - 1px);
-  max-height: calc(100vh - var(--header-height) - 1px);
-
-  .headings {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    transform: translateY(-60%);
-    z-index: 11;
-
-    .head {
-      display: flex;
-      justify-content: center;
-    }
-  }
-
-  .column {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    padding: 24px;
-    min-height: calc(100vh - var(--header-height) - 1px);
-    max-height: calc(100vh - var(--header-height) - 1px);
-    border-right: var(--tasks-global-border);
-    overflow-x: hidden;
-    overflow-y: auto;
-
-    &:last-child {
-      border-right: none;
-    }
-
-    @include scrollbar;
   }
 }
