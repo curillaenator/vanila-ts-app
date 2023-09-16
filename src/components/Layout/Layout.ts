@@ -1,11 +1,7 @@
 import { Dialog } from '@src/components/Dialog';
-// import { Badge } from '@src/components/Badge';
 
 import type { ScreenType, ColorMode } from '@src/types';
 import styles from './layout.module.scss';
-
-// const COLUMN_IDS = ['tasks-opened', 'tasks-in-process', 'tasks-done'];
-// const COLUMN_TITLES = ['Opened', 'In process', 'Accomplished'];
 
 /**
  * @description Singleton providing generated layout instance
@@ -91,7 +87,7 @@ export class Layout {
     }
   }
 
-  private renderHeaderContent() {
+  renderHeaderContent() {
     const left = this.header.querySelector('#slots-left') as HTMLElement;
     const right = this.header.querySelector('#slots-right') as HTMLElement;
 
@@ -108,29 +104,29 @@ export class Layout {
     });
   }
 
-  public setDialogContent(dialogContent: HTMLElement) {
+  setDialogContent(dialogContent: HTMLElement) {
     this.dialog.setContent.call(this.dialog, dialogContent);
   }
 
-  public setAsideContent(asideContent: HTMLElement) {
+  setAsideContent(asideContent: HTMLElement) {
     this.aside.innerHTML = '';
     this.aside.append(asideContent);
   }
 
-  public setMainContent(mainContent: HTMLElement) {
+  setMainContent(mainContent: HTMLElement) {
     this.contentContainer.innerHTML = '';
     this.contentContainer.append(mainContent);
   }
 
-  public observeToggleAside(fn: (isAsideOpen: boolean) => void) {
+  observeToggleAside(fn: (isAsideOpen: boolean) => void) {
     this.asideopenSubscribers.push(fn);
   }
 
-  public observeColorMode(fn: (cMode: ColorMode) => void) {
+  observeColorMode(fn: (cMode: ColorMode) => void) {
     this.colorModeSubscribers.push(fn);
   }
 
-  public toggleAside() {
+  toggleAside() {
     this.isAsideOpen = !this.isAsideOpen;
 
     if (this.isAsideOpen) {
@@ -142,11 +138,11 @@ export class Layout {
     this.asideopenSubscribers.forEach((fn) => fn(this.isAsideOpen));
   }
 
-  public toggleDialog() {
+  toggleDialog() {
     this.dialog.toggleDialog.call(this.dialog);
   }
 
-  public toggleColorMode() {
+  toggleColorMode() {
     this.colorMode = this.colorMode === 'light' ? 'dark' : 'light';
 
     document.body.dataset.theme = this.colorMode;
@@ -154,13 +150,13 @@ export class Layout {
     this.colorModeSubscribers.forEach((fn) => fn(this.colorMode));
   }
 
-  public setHeaderLeftSlot(...elements: HTMLElement[]) {
-    this.headerLeftSlots.unshift(...elements);
+  setHeaderLeftSlot(...elements: HTMLElement[]) {
+    this.headerLeftSlots = elements;
     this.renderHeaderContent();
   }
 
-  public setHeaderRightSlot(...elements: HTMLElement[]) {
-    this.headerRightSlots.push(...elements);
+  setHeaderRightSlot(...elements: HTMLElement[]) {
+    this.headerRightSlots = elements;
     this.renderHeaderContent();
   }
 }

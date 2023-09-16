@@ -2,8 +2,10 @@ import styles from './button.module.scss';
 
 interface ButtonProps extends Partial<HTMLButtonElement> {
   text?: string;
+  icon?: string;
   active?: boolean;
   appearance?: 'solid' | 'transparent';
+  fullwidth?: boolean;
 }
 
 /**
@@ -13,24 +15,55 @@ interface ButtonProps extends Partial<HTMLButtonElement> {
  * UI Component
  */
 export class Button {
-  private button = document.createElement('button');
+  private button: HTMLButtonElement = document.createElement('button');
+  private buttonText: HTMLSpanElement = document.createElement('span');
+  private buttonIcon: HTMLSpanElement = document.createElement('div');
 
   constructor(props: ButtonProps) {
-    const { text, appearance = 'solid', ...rest } = props;
+    const { text, appearance = 'solid', icon, fullwidth = false, ...rest } = props;
 
     Object.entries(rest).forEach(([propName, propValue]) => {
       // @ts-ignore
       this.button[propName] = propValue;
     });
 
-    this.button.innerHTML = `<span class="${styles.text}">${text}</span>`;
-    this.button.classList.add(styles.button, styles[appearance]);
+    this.buttonIcon.classList.add(styles.icon);
 
-    return this;
+    if (icon) {
+      this.buttonIcon.innerHTML = icon;
+      this.button.append(this.buttonIcon);
+    }
+
+    this.buttonText.classList.add(styles.text);
+    this.buttonText.innerText = text || '';
+    this.button.append(this.buttonText);
+
+    this.button.classList.add(styles.button, styles[appearance]);
+    if (fullwidth) {
+      this.button.classList.add(styles.button_fullwidth);
+    }
   }
 
   updateText(newText: string) {
-    this.button.innerHTML = `<span class="${styles.text}">${newText}</span>`;
+    this.buttonText.innerText = newText;
+  }
+
+  updateIcon(newIcon: string) {
+    this.buttonIcon.innerHTML = newIcon;
+
+    if (!this.buttonIcon) {
+      this.button.prepend(this.buttonIcon);
+    }
+  }
+
+  hideText(action: boolean) {
+    if (action) {
+      this.buttonText.dataset.text = this.buttonText.innerText;
+      this.buttonText.innerText = '';
+    } else {
+      this.buttonText.innerText = this.buttonText.dataset.text || '';
+      this.buttonText.dataset.text = '';
+    }
   }
 
   render() {

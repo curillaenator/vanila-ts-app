@@ -12,3 +12,10 @@ export interface TaskProps {
   expiresAt: Date;
   status: StatusType;
 }
+
+export interface CommonPageProps {
+  setHeaderLeftSlot: (...elements: HTMLElement[]) => void;
+  setHeaderRightSlot: (...elements: HTMLElement[]) => void;
+  setDialogContent: (dialogContent: HTMLElement) => void;
+  toggleDialog: () => void;
+}

@@ -1,25 +1,14 @@
+import { Button } from '@src/components/Button';
 import { Layout } from '@src/components/Layout';
+import { Menu } from '@src/components/Menu';
 
-interface RouterQuery {
-  pageTitle: string;
-  payload: string; // JSON stringified data
-  queries: Record<string, string>;
-}
+import { DEFAULT_ROUTE, ICONS_ASSOC } from './constants';
 
-interface ObserveURLProps {
-  initiator: string;
-  callback: () => void;
-}
-
-interface Route {
-  to: string;
-  element: HTMLElement;
-}
-
-const DEFAULT_ROUTE = 'tasks';
+import type { RouterQuery, Route, ObserveURLProps } from './interfaces';
 
 export class Router {
   private layout: Layout | null = null;
+  public asideMenu: Menu | null = null;
 
   private urlObservers: Record<string, () => void> = {};
 
@@ -29,22 +18,30 @@ export class Router {
   public routePayload: string = JSON.stringify({});
   public routeQueries: RouterQuery['queries'] = {};
 
-  constructor() {
+  constructor() {}
+
+  connectLayout(layout: Layout) {
+    this.layout = layout;
+
+    if (!!this.asideMenu) {
+      this.asideMenu.renderContent();
+    }
+
     this.navigate({
-      payload: 'Tasks page',
-      pageTitle: 'Tasks page',
-      queries: {
-        page: DEFAULT_ROUTE,
-      },
+      payload: '',
+      pageTitle: 'Tasks manager',
+      queries: { page: DEFAULT_ROUTE },
     });
   }
 
-  public connectLayout(layout: Layout) {
-    this.layout = layout;
+  connectAsideMenu(asideMenu: Menu) {
+    this.asideMenu = asideMenu;
   }
 
-  public navigate(query: RouterQuery) {
+  navigate(query: RouterQuery) {
     const { payload, pageTitle, queries } = query;
+
+    console.log(this.urlObservers);
 
     history.pushState(payload, pageTitle, this.parseQueries(queries));
 
@@ -54,29 +51,46 @@ export class Router {
 
     Object.values(this.urlObservers).forEach((cb) => cb());
 
-    console.table(this.routes);
-
     if (this.layout && queries.page in this.routes) {
       this.layout?.setMainContent.call(this.layout, this.routes[queries.page]);
-    }
 
-    // console.table({
-    //   location: this.routeLocation,
-    //   payload: this.routePayload,
-    //   queries: this.routeQueries,
-    // });
+      document.title = pageTitle;
+    }
   }
 
-  public observeURL(props: ObserveURLProps) {
+  observeURL(props: ObserveURLProps) {
     const { initiator, callback } = props;
     this.urlObservers[initiator] = callback;
   }
 
-  public setRoute(newRoute: Route) {
+  setRoute(newRoute: Route) {
+    if (newRoute.to !== 'settings') {
+      this.asideMenu?.setNavItem.call(
+        this.asideMenu,
+
+        new Button({
+          appearance: 'transparent',
+          text: newRoute.label,
+          icon: ICONS_ASSOC[newRoute.to],
+          fullwidth: true,
+          onclick: () =>
+            this.navigate({
+              payload: '',
+              pageTitle: newRoute.label,
+              queries: {
+                page: newRoute.to,
+              },
+            }),
+        }),
+      );
+    }
+
     this.routes[newRoute.to] = newRoute.element;
   }
 
-  private parseQueries(queries: RouterQuery['queries']) {
+  private parseQueries(queries: RouterQuery['queries']): string {
+    if (!Object.keys(queries).length) return '';
+
     let queryString = '?';
 
     Object.entries(queries).forEach(([key, value]) => {
