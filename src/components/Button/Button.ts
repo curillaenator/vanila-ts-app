@@ -20,12 +20,18 @@ export class Button {
   private buttonIcon: HTMLSpanElement = document.createElement('div');
 
   constructor(props: ButtonProps) {
-    const { text, appearance = 'solid', icon, fullwidth = false, ...rest } = props;
+    const { text, appearance = 'solid', icon, dataset, fullwidth = false, ...rest } = props;
 
     Object.entries(rest).forEach(([propName, propValue]) => {
       // @ts-ignore
       this.button[propName] = propValue;
     });
+
+    if (dataset) {
+      Object.entries(dataset).forEach(([ds, value]) => {
+        this.button.dataset[ds] = value;
+      });
+    }
 
     this.buttonIcon.classList.add(styles.icon);
 
@@ -54,6 +60,18 @@ export class Button {
     if (!this.buttonIcon) {
       this.button.prepend(this.buttonIcon);
     }
+  }
+
+  getDataset(key: string) {
+    return this.button.dataset[key];
+  }
+
+  addClassNama(className: string) {
+    this.button.classList.add(className);
+  }
+
+  removeClassNama(className: string) {
+    this.button.classList.remove(className);
   }
 
   hideText(action: boolean) {

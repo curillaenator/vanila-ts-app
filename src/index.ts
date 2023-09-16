@@ -5,11 +5,12 @@ import router from '@src/router';
 
 import { TasksPage } from '@src/pages/Tasks';
 import { LaunchTabRunner } from '@src/pages/LaunchTabs';
+import { Settings } from '@src/pages/Settings';
 
 import { Menu } from '@src/components/Menu';
-import { Button } from '@src/components/Button';
 
-import { COLOR_MODES_ASSOC } from '@src/shared/constants';
+// import { COLOR_MODES_ASSOC } from '@src/shared/constants';
+import type { CommonPageProps } from '@src/types';
 import './global.scss';
 
 router.connectAsideMenu.call(
@@ -23,32 +24,32 @@ router.connectAsideMenu.call(
 );
 
 // START routes
+const COMMON_ROUTE_PROPS: CommonPageProps = {
+  setHeaderLeftSlot: layout.setHeaderLeftSlot.bind(layout),
+  setHeaderRightSlot: layout.setHeaderRightSlot.bind(layout),
+  setDialogContent: layout.setDialogContent.bind(layout),
+  toggleDialog: layout.toggleDialog.bind(layout),
+};
+
 router.setRoute.call(router, {
   to: 'tasks',
   label: 'Tasks',
-  element: new TasksPage({
-    setHeaderLeftSlot: layout.setHeaderLeftSlot.bind(layout),
-    setHeaderRightSlot: layout.setHeaderRightSlot.bind(layout),
-    setDialogContent: layout.setDialogContent.bind(layout),
-    toggleDialog: layout.toggleDialog.bind(layout),
-  }).render(),
+  element: new TasksPage(COMMON_ROUTE_PROPS).render(),
 });
 
 router.setRoute.call(router, {
   to: 'launchtabs',
   label: 'LaunchTabs',
-  element: new LaunchTabRunner({
-    setHeaderLeftSlot: layout.setHeaderLeftSlot.bind(layout),
-    setHeaderRightSlot: layout.setHeaderRightSlot.bind(layout),
-    setDialogContent: layout.setDialogContent.bind(layout),
-    toggleDialog: layout.toggleDialog.bind(layout),
-  }).render(),
+  element: new LaunchTabRunner(COMMON_ROUTE_PROPS).render(),
 });
 
 router.setRoute.call(router, {
   to: 'settings',
   label: 'Settings',
-  element: document.createElement('article'),
+  element: new Settings({
+    ...COMMON_ROUTE_PROPS,
+    toggleColorMode: layout.toggleColorMode.bind(layout),
+  }).render(),
 });
 // END routes
 
@@ -60,14 +61,14 @@ layout.setAsideContent.call(
   router.asideMenu.render(),
 );
 
-const colorModeButton = new Button({
-  id: 'tasks-color-mode-button',
-  text: 'Dark',
-  onclick: layout.toggleColorMode.bind(layout),
-});
+// const colorModeButton = new Button({
+//   id: 'tasks-color-mode-button',
+//   text: 'Dark',
+//   onclick: layout.toggleColorMode.bind(layout),
+// });
 
-layout.observeColorMode((cm) => colorModeButton.updateText(COLOR_MODES_ASSOC[cm]));
-layout.setHeaderLeftSlot.call(layout, colorModeButton.render());
+// layout.observeColorMode((cm) => colorModeButton.updateText(COLOR_MODES_ASSOC[cm]));
+// layout.setHeaderLeftSlot.call(layout, colorModeButton.render());
 
 // router.observeURL({
 //   initiator: 'layout',

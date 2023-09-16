@@ -6,6 +6,8 @@ import { DEFAULT_ROUTE, ICONS_ASSOC, LOGOS_ASSOC } from './constants';
 
 import type { RouterQuery, Route, ObserveURLProps } from './interfaces';
 
+import styles from './styles.module.scss';
+
 export class Router {
   private layout: Layout | null = null;
   public asideMenu: Menu | null = null;
@@ -52,6 +54,8 @@ export class Router {
   }
 
   navigate(query: RouterQuery) {
+    if (JSON.stringify(query.payload) === this.routePayload) return;
+
     const { payload, pageTitle, queries } = query;
 
     history.pushState(payload, pageTitle, this.parseQueries(queries));
@@ -74,6 +78,15 @@ export class Router {
 
       document.title = pageTitle;
     }
+
+    this.asideMenu?.navItems.forEach((navButton) => {
+      const navButtonRoute = navButton.getDataset('route');
+      if (navButtonRoute === payload) {
+        navButton.addClassNama(styles.activeRoute);
+      } else {
+        navButton.removeClassNama(styles.activeRoute);
+      }
+    });
   }
 
   observeURL(props: ObserveURLProps) {
@@ -87,6 +100,10 @@ export class Router {
         this.asideMenu,
 
         new Button({
+          id: `nav-button-to-${newRoute.to}`,
+          dataset: {
+            route: newRoute.to,
+          },
           appearance: 'transparent',
           text: newRoute.label,
           icon: ICONS_ASSOC[newRoute.to],

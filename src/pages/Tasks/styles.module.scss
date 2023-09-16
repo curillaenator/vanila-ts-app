@@ -1,5 +1,12 @@
 @import '../../styles/scroll';
 
+.pageTitle {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 48px;
+  color: var(--dark);
+}
+
 .taskContainer {
   position: relative;
   display: grid;

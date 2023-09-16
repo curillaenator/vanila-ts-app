@@ -5,9 +5,8 @@
   color: var(--dark);
 }
 
-.frame {
+.container {
   width: 100%;
-  height: calc(100vh - var(--header-height));
-  border: none;
-  outline: none;
+  height: 100%;
+  padding: 24px;
 }

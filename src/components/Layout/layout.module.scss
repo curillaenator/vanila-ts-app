@@ -13,6 +13,7 @@
   width: var(--app-layout-aside-w);
   height: 100vh;
   transition: width 0.2s ease;
+  overflow-x: hidden;
 
   background:
     no-repeat url('./assets/asideTexture.png'),
@@ -37,6 +38,7 @@
   z-index: 10;
 
   &_hidden {
+    visibility: hidden;
   }
 
   .slots {

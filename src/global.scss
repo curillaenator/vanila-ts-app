@@ -81,6 +81,7 @@ body {
   @include makeTransparentColors('primary', '51, 26, 89');
 
   --grey-1: rgb(255, 255, 255);
+  @include makeTransparentColors('grey-1', '255, 255, 255');
 
   --grey-2: rgb(236, 236, 236);
   @include makeTransparentColors('grey-2', '236, 236, 236');
@@ -89,6 +90,7 @@ body {
   @include makeTransparentColors('grey-6', '32, 32, 32');
 
   --grey-7: rgb(16, 16, 16);
+  @include makeTransparentColors('grey-7', '16, 16, 16');
 
   --secondary: rgb(32, 32, 32);
   @include makeTransparentColors('secondary', '32, 32, 32');

@@ -31,7 +31,7 @@ export class Menu {
   private header: HTMLElement = document.createElement('header');
 
   private content: HTMLElement = document.createElement('nav');
-  private navItems: Button[] = [];
+  public navItems: Button[] = [];
 
   private footer: HTMLElement = document.createElement('footer');
   private footerButton: HTMLElement = document.createElement('button');

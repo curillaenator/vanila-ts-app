@@ -18,7 +18,7 @@ export class TasksPage {
   private manager?: Manager;
 
   constructor(props: CommonPageProps) {
-    const { setHeaderRightSlot, setDialogContent, toggleDialog } = props;
+    const { setHeaderLeftSlot, setHeaderRightSlot, setDialogContent, toggleDialog } = props;
 
     this.container.classList.add(styles.taskContainer);
 
@@ -63,6 +63,12 @@ export class TasksPage {
 
       callback: () => {
         if (router.routeQueries.page === 'tasks') {
+          const pageTitle = document.createElement('h3');
+          pageTitle.classList.add(styles.pageTitle);
+          pageTitle.innerText = 'Tasks manager';
+
+          setHeaderLeftSlot(pageTitle);
+
           setHeaderRightSlot(
             new Button({
               text: 'Create',
