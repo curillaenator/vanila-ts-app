@@ -37,7 +37,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-height: var(--header-height);
+    // min-height: var(--header-height);
     border-top: 2px solid var(--medium-20);
     flex-shrink: 0;
 
@@ -49,7 +49,7 @@
       align-items: center;
       width: 100%;
       height: 100%;
-      padding: 24px;
+      padding: 11px 24px;
       color: var(--grey-2-60);
 
       & > span {

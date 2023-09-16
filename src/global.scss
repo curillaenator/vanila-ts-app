@@ -75,16 +75,16 @@ $transparancies: (
 }
 
 body {
-  // --primary: rgb(16, 16, 16);
-  // @include makeTransparentColors('primary', '16, 16, 16');
-  --primary: rgb(51, 26, 89);
-  @include makeTransparentColors('primary', '51, 26, 89');
+  // --primary: rgb(51, 26, 89);
+  // @include makeTransparentColors('primary', '51, 26, 89');
+  --primary: rgb(42, 84, 192);
+  @include makeTransparentColors('primary', '42, 84, 192');
 
   --grey-1: rgb(255, 255, 255);
   @include makeTransparentColors('grey-1', '255, 255, 255');
 
-  --grey-2: rgb(236, 236, 236);
-  @include makeTransparentColors('grey-2', '236, 236, 236');
+  --grey-2: rgb(228, 227, 228);
+  @include makeTransparentColors('grey-2', '228, 227, 228');
 
   --grey-6: rgb(32, 32, 32);
   @include makeTransparentColors('grey-6', '32, 32, 32');
@@ -119,28 +119,41 @@ body {
 }
 
 body[data-theme='light'] {
-  --light: rgb(255, 255, 255);
+  --lightest: rgb(255, 255, 255);
   @include makeTransparentColors('light', '255, 255, 255');
+
+  --light: rgb(228, 227, 228);
+  @include makeTransparentColors('light', '228, 227, 228');
 
   --dark: rgb(16, 16, 16);
   @include makeTransparentColors('dark', '16, 16, 16');
 
-  --app-global-scroll-c: var(--primary-40);
-  --app-global-scroll-c-h: var(--primary-60);
+  --darkest: rgb(16, 16, 16);
+  @include makeTransparentColors('dark', '16, 16, 16');
 
-  --app-global-bdc: var(--primary-20);
-  --app-global-border: 2px solid var(--primary-20);
-  --app-aside-bgc: var(--primary-80);
+  --app-global-scroll-c: var(--dark-40);
+  --app-global-scroll-c-h: var(--dark-60);
 
-  background: radial-gradient(var(--light), var(--primary-60));
+  --app-global-bdc: var(--dark-20);
+  --app-global-border: 2px solid var(--dark-20);
+  --app-aside-bgc: var(--primary);
+
+  // background: radial-gradient(var(--light), var(--primary-60));
+  background-color: var(--grey-2);
 }
 
 body[data-theme='dark'] {
+  --lightest: rgb(16, 16, 16);
+  @include makeTransparentColors('light', '16, 16, 16');
+
   --light: rgb(16, 16, 16);
   @include makeTransparentColors('light', '16, 16, 16');
 
-  --dark: rgb(236, 236, 236);
-  @include makeTransparentColors('dark', '236, 236, 236');
+  --dark: rgb(228, 227, 228);
+  @include makeTransparentColors('dark', '228, 227, 228');
+
+  --darkest: rgb(255, 255, 255);
+  @include makeTransparentColors('dark', '255, 255, 255');
 
   --app-global-scroll-c: var(--light-80);
   --app-global-scroll-c-h: var(--light);
@@ -149,7 +162,8 @@ body[data-theme='dark'] {
   --app-global-border: 2px solid var(--dark-10);
   --app-aside-bgc: transparent;
 
-  background: radial-gradient(var(--light-80), var(--light));
+  // background: radial-gradient(var(--light-80), var(--light));
+  background-color: var(--grey-6);
 }
 
 button {

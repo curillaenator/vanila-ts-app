@@ -21,6 +21,7 @@ interface FormOptions {
  */
 export class Form {
   private _form: HTMLFormElement;
+
   private _title?: string;
   private _description?: string;
   private _expiresAt: Date = new Date();
@@ -43,6 +44,7 @@ export class Form {
     const closeButton = new Button({
       type: 'button',
       onclick: (e) => {
+        this.resetForm();
         e.preventDefault();
         closeForm();
       },
@@ -60,6 +62,7 @@ export class Form {
       onclick: (e) => {
         e.preventDefault();
         createTask(this.getFormData());
+        this.resetForm();
         closeForm();
       },
     }).render();
@@ -112,6 +115,13 @@ export class Form {
 
   render() {
     return this._form;
+  }
+
+  resetForm() {
+    this._title = '';
+    this._description = '';
+    this._expiresAt = new Date();
+    this._status = 'open';
   }
 
   getFormData() {

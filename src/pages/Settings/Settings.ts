@@ -12,7 +12,12 @@ export class Settings {
   container: HTMLElement = document.createElement('div');
 
   constructor(props: SettingsProps) {
-    const { toggleColorMode, setHeaderLeftSlot = () => {}, setHeaderRightSlot = () => {} } = props;
+    const {
+      toggleColorMode,
+      setHeaderLeftSlot = () => {},
+      setHeaderRightSlot = () => {},
+      setDialogContent = () => {},
+    } = props;
 
     router.observeURL({
       initiator: 'settigs-page',
@@ -22,6 +27,8 @@ export class Settings {
           const pageTitle = document.createElement('h3');
           pageTitle.classList.add(styles.pageTitle);
           pageTitle.innerText = 'Application settings';
+
+          setDialogContent(document.createElement('div'));
 
           setHeaderLeftSlot(pageTitle);
           setHeaderRightSlot(...[]);

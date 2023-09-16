@@ -69,18 +69,17 @@ export class TasksPage {
 
           setHeaderLeftSlot(pageTitle);
 
+          setDialogContent(
+            new Form({
+              closeForm: toggleDialog,
+              createTask: this.manager?.create.bind(this.manager) || (() => {}),
+            }).render(),
+          );
+
           setHeaderRightSlot(
             new Button({
               text: 'Create',
-              onclick: () => {
-                setDialogContent(
-                  new Form({
-                    closeForm: toggleDialog,
-                    createTask: this.manager?.create.bind(this.manager) || (() => {}),
-                  }).render(),
-                );
-                toggleDialog();
-              },
+              onclick: toggleDialog,
             }).render(),
           );
         }

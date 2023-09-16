@@ -7,7 +7,7 @@ export class LaunchTabRunner {
   private launchTabs: HTMLIFrameElement = document.createElement('iframe');
 
   constructor(props: CommonPageProps) {
-    const { setHeaderRightSlot, setHeaderLeftSlot } = props;
+    const { setHeaderRightSlot, setHeaderLeftSlot, setDialogContent } = props;
 
     this.launchTabs.classList.add(styles.frame);
     this.launchTabs.src = 'https://launchtab-81b06.web.app/';
@@ -21,6 +21,8 @@ export class LaunchTabRunner {
           const pageTitle = document.createElement('h3');
           pageTitle.classList.add(styles.pageTitle);
           pageTitle.innerText = 'Bookmarks service';
+
+          setDialogContent(document.createElement('div'));
 
           setHeaderLeftSlot(pageTitle);
           setHeaderRightSlot(...[]);
