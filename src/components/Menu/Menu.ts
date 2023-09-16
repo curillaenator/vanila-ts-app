@@ -26,7 +26,7 @@ export interface NavItem {
 export class Menu {
   private container: HTMLElement = document.createElement('div');
 
-  private logo: HTMLElement = document.createElement('h1');
+  public logo: HTMLElement = document.createElement('h1');
   private openButton = new Button({ appearance: 'transparent' }).render();
   private header: HTMLElement = document.createElement('header');
 
@@ -59,7 +59,7 @@ export class Menu {
 
     this.footerButton.onclick = () =>
       navigate({
-        payload: '',
+        payload: 'settings',
         pageTitle: 'Settings',
         queries: {
           page: 'settings',
@@ -82,11 +82,13 @@ export class Menu {
 
   private rerender(isAsideOpen: boolean) {
     if (isAsideOpen) {
-      this.logo.innerText = 'Tasks';
+      this.logo.innerText = this.logo.dataset.text || 'Tasks';
+      this.logo.dataset.text = '';
       this.openButton.innerHTML = CARET_LEFT;
       this.footerButton.innerHTML = `<span>Settings</span>${SETTINGS_ICON}`;
       this.navItems.forEach((navButton) => navButton.hideText.call(navButton, false));
     } else {
+      this.logo.dataset.text = this.logo.innerText;
       this.logo.innerText = '';
       this.openButton.innerHTML = CARET_RIGHT;
       this.footerButton.innerHTML = `<span></span>${SETTINGS_ICON}`;
@@ -100,6 +102,10 @@ export class Menu {
 
   renderContent() {
     this.content.append(...this.navItems.map((navButton) => navButton.render()));
+  }
+
+  updateLogo(logo: string) {
+    this.logo.innerText = logo;
   }
 
   render() {

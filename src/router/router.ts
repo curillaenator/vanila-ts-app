@@ -2,7 +2,7 @@ import { Button } from '@src/components/Button';
 import { Layout } from '@src/components/Layout';
 import { Menu } from '@src/components/Menu';
 
-import { DEFAULT_ROUTE, ICONS_ASSOC } from './constants';
+import { DEFAULT_ROUTE, ICONS_ASSOC, LOGOS_ASSOC } from './constants';
 
 import type { RouterQuery, Route, ObserveURLProps } from './interfaces';
 
@@ -18,7 +18,20 @@ export class Router {
   public routePayload: string = JSON.stringify({});
   public routeQueries: RouterQuery['queries'] = {};
 
-  constructor() {}
+  constructor() {
+    window.addEventListener('popstate', (e) => {
+      const page = e.state;
+
+      if (this.layout?.isAsideOpen) {
+        this.asideMenu?.updateLogo(LOGOS_ASSOC[page]);
+      } else {
+        // @ts-expect-error
+        this.asideMenu.logo.dataset.text = LOGOS_ASSOC[page];
+      }
+
+      this.layout?.setMainContent(this.routes[page]);
+    });
+  }
 
   connectLayout(layout: Layout) {
     this.layout = layout;
@@ -28,8 +41,8 @@ export class Router {
     }
 
     this.navigate({
-      payload: '',
-      pageTitle: 'Tasks manager',
+      payload: 'tasks',
+      pageTitle: 'Tasks',
       queries: { page: DEFAULT_ROUTE },
     });
   }
@@ -41,9 +54,14 @@ export class Router {
   navigate(query: RouterQuery) {
     const { payload, pageTitle, queries } = query;
 
-    console.log(this.urlObservers);
-
     history.pushState(payload, pageTitle, this.parseQueries(queries));
+
+    if (this.layout?.isAsideOpen) {
+      this.asideMenu?.updateLogo(LOGOS_ASSOC[payload]);
+    } else {
+      // @ts-expect-error
+      this.asideMenu.logo.dataset.text = LOGOS_ASSOC[payload];
+    }
 
     this.routeLocation = location;
     this.routeQueries = queries;
@@ -75,7 +93,7 @@ export class Router {
           fullwidth: true,
           onclick: () =>
             this.navigate({
-              payload: '',
+              payload: newRoute.to,
               pageTitle: newRoute.label,
               queries: {
                 page: newRoute.to,

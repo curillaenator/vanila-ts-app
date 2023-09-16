@@ -16,7 +16,7 @@ export class Layout {
   private pageContainer: HTMLElement = document.createElement('div');
 
   private aside: HTMLElement = document.createElement('aside');
-  private isAsideOpen: boolean = true;
+  public isAsideOpen: boolean = true;
   private asideopenSubscribers: ((isAsideOpen: boolean) => void)[] = [];
 
   private header: HTMLElement = document.createElement('header');
@@ -93,6 +93,12 @@ export class Layout {
 
     left.innerHTML = '';
     right.innerHTML = '';
+
+    if (!this.headerLeftSlots.length && !this.headerRightSlots.length) {
+      this.header.classList.add(styles.header_hidden);
+    } else {
+      this.header.classList.remove(styles.header_hidden);
+    }
 
     // TODO: optimize rerender
     this.headerLeftSlots.forEach((htmlEl) => {

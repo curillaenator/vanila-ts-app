@@ -36,6 +36,9 @@
   border-bottom: var(--app-global-border);
   z-index: 10;
 
+  &_hidden {
+  }
+
   .slots {
     display: flex;
     align-items: center;
