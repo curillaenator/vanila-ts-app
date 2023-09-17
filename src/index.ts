@@ -1,6 +1,6 @@
 // START imports order matters
 import layout from '@src/components/Layout'; // must be imported first
-import router from '@src/router';
+import router from '@src/core/Router';
 // END imports order matters
 
 import { TasksPage } from '@src/pages/Tasks';
@@ -61,12 +61,6 @@ layout.setAsideContent.call(
   router.asideMenu.render(),
 );
 
-// const colorModeButton = new Button({
-//   id: 'tasks-color-mode-button',
-//   text: 'Dark',
-//   onclick: layout.toggleColorMode.bind(layout),
-// });
-
 // layout.observeColorMode((cm) => colorModeButton.updateText(COLOR_MODES_ASSOC[cm]));
 // layout.setHeaderLeftSlot.call(layout, colorModeButton.render());
 
@@ -74,16 +68,3 @@ layout.setAsideContent.call(
 //   initiator: 'layout',
 //   callback: layout.toggleColorMode.bind(layout),
 // });
-
-//   new Button({
-//     text: 'Authenticate (route without page reload)',
-//     onclick: () => {
-//       router.navigate({
-//         payload: 'Authenticate payload',
-//         pageTitle: 'Authenticate',
-//         queries: {
-//           page: 'auth',
-//         },
-//       });
-//     },
-//   }).render(),

@@ -1,4 +1,4 @@
-import router from '@src/router';
+import router from '@src/core/Router';
 
 import { Form } from '@src/components/Form';
 import { Badge } from '@src/components/Badge';

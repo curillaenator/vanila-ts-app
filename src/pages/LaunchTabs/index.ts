@@ -1,4 +1,4 @@
-import router from '@src/router';
+import router from '@src/core/Router';
 
 import type { CommonPageProps } from '@src/types';
 import styles from './styles.module.scss';

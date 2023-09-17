@@ -19,3 +19,7 @@ export interface CommonPageProps {
   setDialogContent: (dialogContent: HTMLElement) => void;
   toggleDialog: () => void;
 }
+
+export interface AppSettings {
+  colorMode: ColorMode;
+}

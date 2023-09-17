@@ -1,3 +1,4 @@
+import { api } from '@src/api';
 import { Dialog } from '@src/components/Dialog';
 
 import type { ScreenType, ColorMode } from '@src/types';
@@ -28,7 +29,11 @@ export class Layout {
   private contentContainer: HTMLElement = document.createElement('main');
 
   constructor() {
-    document.body.dataset.theme = this.colorMode;
+    api.getSettings().then((res) => {
+      this.colorMode = res.colorMode;
+      document.body.dataset.theme = this.colorMode;
+    });
+
     document.body.style.setProperty('--app-layout-aside-w', '384px');
 
     window.addEventListener('resize', this.watchWindowSize);
@@ -152,6 +157,7 @@ export class Layout {
     this.colorMode = this.colorMode === 'light' ? 'dark' : 'light';
 
     document.body.dataset.theme = this.colorMode;
+    api.setSettings({ colorMode: this.colorMode });
 
     this.colorModeSubscribers.forEach((fn) => fn(this.colorMode));
   }

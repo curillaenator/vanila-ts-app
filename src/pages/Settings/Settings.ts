@@ -1,4 +1,4 @@
-import router from '@src/router';
+import router from '@src/core/Router';
 import { Button } from '@src/components/Button';
 
 import type { CommonPageProps } from '@src/types';
