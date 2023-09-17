@@ -1,39 +1,21 @@
+import { UIComponent } from '@src/core/UIComponent/UIComponent';
+
+import type { BadgeProps } from './interfaces';
 import styles from './styles.module.scss';
 
-export type BadgeAppearance = 'white' | 'light' | 'attention' | 'positive' | 'negative' | 'info';
-
-interface BadgeProps extends Partial<HTMLSpanElement> {
-  title: string;
-  appearance: 'white' | 'light' | 'attention' | 'positive' | 'negative' | 'info';
-  size?: 'small' | 'medium' | 'large';
-  bordered?: boolean;
-}
-
 /**
- * @constructor
  * @param {BadgeProps} props - import type { BadgeProps } from '@src/components/Badge'
  *
  * UI Component
  */
-export class Badge {
-  private badge = document.createElement('span');
-
+export class Badge extends UIComponent {
   constructor(props: BadgeProps) {
     const { title, appearance, size = 'medium', bordered = false, ...rest } = props;
 
-    Object.entries(rest).forEach(([propName, propValue]) => {
-      // @ts-ignore
-      this.badge[propName] = propValue;
-    });
+    super({ ...rest, as: 'span' });
 
-    this.badge.innerText = title;
-    this.badge.classList.add(styles.badge);
-    if (bordered) this.badge.classList.add(styles.badge_bordered);
-    this.badge.classList.add(styles[appearance]);
-    this.badge.classList.add(styles[size]);
-  }
-
-  render() {
-    return this.badge;
+    this.component.innerText = title;
+    this.component.classList.add(styles.badge, styles[appearance], styles[size]);
+    if (bordered) this.component.classList.add(styles.badge_bordered);
   }
 }
