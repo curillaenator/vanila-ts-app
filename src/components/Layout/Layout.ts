@@ -57,7 +57,7 @@ export class Layout {
     document.body.append(
       this.aside,
       this.pageContainer,
-      this.dialog.dialogNode, // dialog must be always last
+      this.dialog.render(), // dialog must be always last
     );
 
     return this;

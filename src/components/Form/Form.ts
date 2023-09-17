@@ -38,20 +38,15 @@ export class Form {
     const formText = document.createElement('h3');
     formText.innerText = 'Create task';
 
-    // const closeButtonIcon = document.createElement('img');
-    // closeButtonIcon.src = closeIcon;
-
     const closeButton = new Button({
       type: 'button',
       onclick: (e) => {
-        this.resetForm();
+        // this.resetForm();
         e.preventDefault();
         closeForm();
       },
     }).render();
     closeButton.innerHTML = CLOSE_ICON;
-    // closeButton.classList.add(styles.iconButton);
-    // closeButton.append(closeButtonIcon);
 
     formTitle.classList.add(styles.title);
     formTitle.append(formText, closeButton);
@@ -62,7 +57,7 @@ export class Form {
       onclick: (e) => {
         e.preventDefault();
         createTask(this.getFormData());
-        this.resetForm();
+        // this.resetForm();
         closeForm();
       },
     }).render();

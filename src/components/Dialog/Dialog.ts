@@ -71,10 +71,11 @@ export class Dialog {
   }
 
   setContent(dialogContent: HTMLElement) {
+    this.content.innerHTML = '';
     this.content.append(dialogContent);
   }
 
-  get dialogNode() {
+  render() {
     return this.container;
   }
 }
