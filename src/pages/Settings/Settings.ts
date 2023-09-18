@@ -1,6 +1,5 @@
 import { UIComponent } from '@src/core/UIComponent';
 
-import { api } from '@src/api';
 import store from '@src/core/GlobalStore';
 import router from '@src/core/Router';
 import { useGlobalState } from '@src/core/GlobalStore';
@@ -54,8 +53,6 @@ export class Settings extends UIComponent {
 
     // @ts-expect-error
     store.addStateObserver('colorMode', (colorMode: ColorMode) => {
-      document.body.dataset.theme = colorMode;
-      api.setSettings({ colorMode });
       this.updateColorModeButton(colorMode, COLOR_MODE_ICONS_ASSOC[colorMode]);
     });
 

@@ -20,7 +20,7 @@ export class LaunchTabRunner {
         if (router.routeQueries.page === 'launchtabs') {
           const pageTitle = document.createElement('h3');
           pageTitle.classList.add(styles.pageTitle);
-          pageTitle.innerText = 'Bookmarks service';
+          pageTitle.innerText = 'LaunchTabs';
 
           setDialogContent(document.createElement('div'));
 

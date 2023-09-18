@@ -15,8 +15,8 @@ export class Layout {
   private pageContainer: HTMLElement = document.createElement('div');
 
   private aside: HTMLElement = document.createElement('aside');
-  public isAsideOpen: boolean = true;
-  private asideopenSubscribers: ((isAsideOpen: boolean) => void)[] = [];
+  // public isAsideOpen: boolean = true;
+  // private asideopenSubscribers: ((isAsideOpen: boolean) => void)[] = [];
 
   private header: HTMLElement = document.createElement('header');
   private headerRightSlots: HTMLElement[] = [];
@@ -29,12 +29,32 @@ export class Layout {
   constructor() {
     store.create({
       colorMode: 'light',
+      isAsideOpen: true,
+      isDialogOpen: false,
     });
 
+    console.table(store);
+
     const [getColorMode, setColorMode] = useGlobalState<ColorMode>('colorMode');
+    const [getIsAsideOpen, setIsAsideOpen] = useGlobalState<boolean>('isAsideOpen');
+
+    this.toggleShowAside(getIsAsideOpen());
+
+    // @ts-expect-error
+    store.addStateObserver('colorMode', (colorMode: ColorMode) => {
+      document.body.dataset.theme = colorMode;
+      api.setSettings({ colorMode });
+    });
+
+    // @ts-expect-error
+    store.addStateObserver('isAsideOpen', (isAsideOpen: boolean) => {
+      this.toggleShowAside(isAsideOpen);
+      api.setSettings({ isAsideOpen });
+    });
 
     api.getSettings().then((res) => {
       setColorMode(res.colorMode);
+      setIsAsideOpen(res.isAsideOpen || false);
       document.body.dataset.theme = getColorMode();
     });
 
@@ -96,6 +116,14 @@ export class Layout {
     }
   }
 
+  private toggleShowAside(isAsideOpen: boolean) {
+    if (isAsideOpen) {
+      document.body.style.setProperty('--app-layout-aside-w', '384px');
+    } else {
+      document.body.style.setProperty('--app-layout-aside-w', '98px');
+    }
+  }
+
   renderHeaderContent() {
     const left = this.header.querySelector('#slots-left') as HTMLElement;
     const right = this.header.querySelector('#slots-right') as HTMLElement;
@@ -133,21 +161,21 @@ export class Layout {
     this.contentContainer.append(mainContent);
   }
 
-  observeToggleAside(fn: (isAsideOpen: boolean) => void) {
-    this.asideopenSubscribers.push(fn);
-  }
+  // observeToggleAside(fn: (isAsideOpen: boolean) => void) {
+  //   this.asideopenSubscribers.push(fn);
+  // }
 
-  toggleAside() {
-    this.isAsideOpen = !this.isAsideOpen;
+  // toggleAside() {
+  //   this.isAsideOpen = !this.isAsideOpen;
 
-    if (this.isAsideOpen) {
-      document.body.style.setProperty('--app-layout-aside-w', '384px');
-    } else {
-      document.body.style.setProperty('--app-layout-aside-w', '98px');
-    }
+  // if (this.isAsideOpen) {
+  //   document.body.style.setProperty('--app-layout-aside-w', '384px');
+  // } else {
+  //   document.body.style.setProperty('--app-layout-aside-w', '98px');
+  // }
 
-    this.asideopenSubscribers.forEach((fn) => fn(this.isAsideOpen));
-  }
+  //   this.asideopenSubscribers.forEach((fn) => fn(this.isAsideOpen));
+  // }
 
   toggleDialog() {
     this.dialog.toggleDialog.call(this.dialog);

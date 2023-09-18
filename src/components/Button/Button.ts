@@ -51,11 +51,11 @@ export class Button extends UIComponent {
     return this.component.dataset[key];
   }
 
-  addClassNama(className: string) {
+  addClassName(className: string) {
     this.component.classList.add(className);
   }
 
-  removeClassNama(className: string) {
+  removeClassName(className: string) {
     this.component.classList.remove(className);
   }
 

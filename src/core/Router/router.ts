@@ -1,18 +1,16 @@
-import { GlobalStore } from '@src/core/GlobalStore';
+import store, { useGlobalState } from '@src/core/GlobalStore';
 
 import { Button } from '@src/components/Button';
 import { Layout } from '@src/components/Layout';
 import { Menu } from '@src/components/Menu';
 
-import { DEFAULT_ROUTE, ICONS_ASSOC, LOGOS_ASSOC } from './constants';
+import { DEFAULT_ROUTE, ICONS_ASSOC } from './constants'; // LOGOS_ASSOC
 
 import type { RouterQuery, Route, ObserveURLProps } from './interfaces';
 
 import styles from './styles.module.scss';
 
 export class Router {
-  private globalStore?: GlobalStore;
-
   private layout: Layout | null = null;
   public asideMenu: Menu | null = null;
 
@@ -25,22 +23,34 @@ export class Router {
   public routeQueries: RouterQuery['queries'] = {};
 
   constructor() {
+    const [getIsAsideOpen] = useGlobalState<boolean>('isAsideOpen');
+
     window.addEventListener('popstate', (e) => {
       const page = e.state;
 
-      if (this.layout?.isAsideOpen) {
-        this.asideMenu?.updateLogo(LOGOS_ASSOC[page]);
+      if (getIsAsideOpen()) {
+        // this.asideMenu?.updateLogo(LOGOS_ASSOC[page]);
+        this.asideMenu?.updateLogo('App');
       } else {
         // @ts-expect-error
-        this.asideMenu.logo.dataset.text = LOGOS_ASSOC[page];
+        // this.asideMenu.logo.dataset.text = LOGOS_ASSOC[page];
+        this.asideMenu.logo.dataset.text = 'App';
       }
 
       this.layout?.setMainContent(this.routes[page]);
     });
-  }
 
-  connectGlobalStore(store: GlobalStore) {
-    this.globalStore = store;
+    // @ts-expect-error
+    store.addStateObserver('isAsideOpen', (isAsideOpen: boolean) => {
+      if (isAsideOpen) {
+        // this.asideMenu?.updateLogo(LOGOS_ASSOC[JSON.parse(this.routePayload)]);
+        this.asideMenu?.updateLogo('App');
+      } else {
+        // @ts-expect-error
+        // this.asideMenu.logo.dataset.text = LOGOS_ASSOC[JSON.parse(this.routePayload)];
+        this.asideMenu.logo.dataset.text = 'App';
+      }
+    });
   }
 
   connectLayout(layout: Layout) {
@@ -64,18 +74,9 @@ export class Router {
   navigate(query: RouterQuery) {
     if (JSON.stringify(query.payload) === this.routePayload) return;
 
-    // console.table(this.globalStore);
-
     const { payload, pageTitle, queries } = query;
 
     history.pushState(payload, pageTitle, this.parseQueries(queries));
-
-    if (this.layout?.isAsideOpen) {
-      this.asideMenu?.updateLogo(LOGOS_ASSOC[payload]);
-    } else {
-      // @ts-expect-error
-      this.asideMenu.logo.dataset.text = LOGOS_ASSOC[payload];
-    }
 
     this.routeLocation = location;
     this.routeQueries = queries;
@@ -91,10 +92,11 @@ export class Router {
 
     this.asideMenu?.navItems.forEach((navButton) => {
       const navButtonRoute = navButton.getDataset('route');
+
       if (navButtonRoute === payload) {
-        navButton.addClassNama(styles.activeRoute);
+        navButton.addClassName(styles.activeRoute);
       } else {
-        navButton.removeClassNama(styles.activeRoute);
+        navButton.removeClassName(styles.activeRoute);
       }
     });
   }

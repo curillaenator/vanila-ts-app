@@ -29,6 +29,7 @@ export class GlobalStore {
       this.store.set(stateName, payload);
 
       const observers = this.store.get(`${stateName}_observers`) as StateObserverType[];
+
       observers.forEach((observerFn) => observerFn(payload));
     } else {
       alert('no such state');

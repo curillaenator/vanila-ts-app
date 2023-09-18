@@ -1,12 +1,13 @@
+import store, { useGlobalState } from '@src/core/GlobalStore';
+import { UIComponent } from '@src/core/UIComponent/UIComponent';
+
 import { Button } from '@src/components/Button';
-import type { RouterQuery } from '@src/router';
+import type { RouterQuery } from '@src/core/Router';
 
 import { CARET_LEFT, CARET_RIGHT, SETTINGS_ICON } from '@src/shared/icons';
 import styles from './menu.module.scss';
 
 interface MenuProps extends Partial<HTMLDivElement> {
-  toggleAside: () => void;
-  subscribeOnAsideToggle: (fn: (isAsideOpen: boolean) => void) => void;
   navigate: (q: RouterQuery) => void;
 }
 
@@ -23,9 +24,7 @@ export interface NavItem {
  *
  * UI Component
  */
-export class Menu {
-  private container: HTMLElement = document.createElement('div');
-
+export class Menu extends UIComponent {
   public logo: HTMLElement = document.createElement('h1');
   private openButton = new Button({ appearance: 'transparent' }).render();
   private header: HTMLElement = document.createElement('header');
@@ -37,26 +36,25 @@ export class Menu {
   private footerButton: HTMLElement = document.createElement('button');
 
   constructor(props: MenuProps) {
-    const { toggleAside, subscribeOnAsideToggle, navigate, ...rest } = props;
+    const { navigate, ...rest } = props;
+    super({ as: 'div', ...rest });
 
-    Object.entries(rest).forEach(([propName, propValue]) => {
-      // @ts-ignore
-      this.container[propName] = propValue;
-    });
+    const [getIsAsideOpen, setIsAsideOpen] = useGlobalState<boolean>('isAsideOpen');
 
-    this.container.id = 'app-aside-menu';
-    this.container.classList.add(styles.menu);
+    this.component.id = 'app-aside-menu';
+    this.component.classList.add(styles.menu);
 
     this.header.classList.add(styles.header);
     this.content.classList.add(styles.content);
     this.footer.classList.add(styles.footer);
 
     this.logo.classList.add(styles.logo);
-    this.logo.innerText = 'Tasks';
+    this.logo.innerText = 'App';
 
     this.openButton.innerHTML = CARET_LEFT;
-    this.openButton.onclick = toggleAside;
+    this.openButton.onclick = () => setIsAsideOpen(!getIsAsideOpen());
 
+    this.footerButton.innerHTML = `<span>Settings</span>${SETTINGS_ICON}`;
     this.footerButton.onclick = () =>
       navigate({
         payload: 'settings',
@@ -65,19 +63,17 @@ export class Menu {
           page: 'settings',
         },
       });
-    this.footerButton.innerHTML = `<span>Settings</span>${SETTINGS_ICON}`;
 
     this.header.append(this.logo, this.openButton);
 
     this.footer.append(this.footerButton);
 
-    this.container.append(this.header, this.content, this.footer);
+    this.component.append(this.header, this.content, this.footer);
 
-    subscribeOnAsideToggle(this.setIsOpen.bind(this));
-  }
-
-  private setIsOpen(isAsideOpen: boolean) {
-    this.rerender(isAsideOpen);
+    // @ts-expect-error
+    store.addStateObserver('isAsideOpen', (isAsideOpen: boolean) => {
+      this.rerender(isAsideOpen);
+    });
   }
 
   private rerender(isAsideOpen: boolean) {
@@ -106,9 +102,5 @@ export class Menu {
 
   updateLogo(logo: string) {
     this.logo.innerText = logo;
-  }
-
-  render() {
-    return this.container;
   }
 }

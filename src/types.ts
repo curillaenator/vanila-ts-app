@@ -22,4 +22,5 @@ export interface CommonPageProps {
 
 export interface AppSettings {
   colorMode: ColorMode;
+  isAsideOpen: boolean;
 }

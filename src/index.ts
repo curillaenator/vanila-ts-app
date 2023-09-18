@@ -1,5 +1,4 @@
 // START imports order matters
-import store from '@src/core/GlobalStore';
 import layout from '@src/components/Layout'; // must be imported first
 import router from '@src/core/Router';
 // END imports order matters
@@ -13,17 +12,7 @@ import { Menu } from '@src/components/Menu';
 import type { CommonPageProps } from '@src/types';
 import './global.scss';
 
-router.connectGlobalStore.call(router, store);
-
-router.connectAsideMenu.call(
-  router,
-
-  new Menu({
-    navigate: router.navigate.bind(router),
-    toggleAside: layout.toggleAside.bind(layout),
-    subscribeOnAsideToggle: layout.observeToggleAside.bind(layout),
-  }),
-);
+router.connectAsideMenu.call(router, new Menu({ navigate: router.navigate.bind(router) }));
 
 // START routes
 const COMMON_ROUTE_PROPS: CommonPageProps = {
