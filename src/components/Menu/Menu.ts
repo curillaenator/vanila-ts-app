@@ -79,7 +79,7 @@ export class Menu extends UIComponent {
   }
 
   private rerender(isAsideOpen: boolean) {
-    console.log(isAsideOpen);
+    // console.log(isAsideOpen);
 
     if (isAsideOpen) {
       this.logo.innerText = this.logo.dataset.text || 'Tasks';
