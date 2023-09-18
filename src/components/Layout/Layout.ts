@@ -36,7 +36,9 @@ export class Layout {
     // console.table(store);
 
     const [getColorMode, setColorMode] = useGlobalState<ColorMode>('colorMode');
-    const [getIsAsideOpen, setIsAsideOpen] = useGlobalState<boolean>('isAsideOpen');
+    const [getIsAsideOpen] = useGlobalState<boolean>('isAsideOpen');
+
+    // console.log(getIsAsideOpen());
 
     this.toggleShowAside(getIsAsideOpen());
 
@@ -49,12 +51,10 @@ export class Layout {
     // @ts-expect-error
     store.addStateObserver('isAsideOpen', (isAsideOpen: boolean) => {
       this.toggleShowAside(isAsideOpen);
-      api.setSettings({ isAsideOpen });
     });
 
     api.getSettings().then((res) => {
       setColorMode(res.colorMode);
-      setIsAsideOpen(res.isAsideOpen || false);
       document.body.dataset.theme = getColorMode();
     });
 
@@ -160,22 +160,6 @@ export class Layout {
     this.contentContainer.innerHTML = '';
     this.contentContainer.append(mainContent);
   }
-
-  // observeToggleAside(fn: (isAsideOpen: boolean) => void) {
-  //   this.asideopenSubscribers.push(fn);
-  // }
-
-  // toggleAside() {
-  //   this.isAsideOpen = !this.isAsideOpen;
-
-  // if (this.isAsideOpen) {
-  //   document.body.style.setProperty('--app-layout-aside-w', '384px');
-  // } else {
-  //   document.body.style.setProperty('--app-layout-aside-w', '98px');
-  // }
-
-  //   this.asideopenSubscribers.forEach((fn) => fn(this.isAsideOpen));
-  // }
 
   toggleDialog() {
     this.dialog.toggleDialog.call(this.dialog);

@@ -70,6 +70,8 @@ export class Menu extends UIComponent {
 
     this.component.append(this.header, this.content, this.footer);
 
+    console.log(store);
+
     // @ts-expect-error
     store.addStateObserver('isAsideOpen', (isAsideOpen: boolean) => {
       this.rerender(isAsideOpen);
@@ -77,19 +79,21 @@ export class Menu extends UIComponent {
   }
 
   private rerender(isAsideOpen: boolean) {
+    console.log(isAsideOpen);
+
     if (isAsideOpen) {
       this.logo.innerText = this.logo.dataset.text || 'Tasks';
       this.logo.dataset.text = '';
       this.openButton.innerHTML = CARET_LEFT;
       this.footerButton.innerHTML = `<span>Settings</span>${SETTINGS_ICON}`;
-      this.navItems.forEach((navButton) => navButton.hideText.call(navButton, false));
     } else {
       this.logo.dataset.text = this.logo.innerText;
       this.logo.innerText = '';
       this.openButton.innerHTML = CARET_RIGHT;
       this.footerButton.innerHTML = `<span></span>${SETTINGS_ICON}`;
-      this.navItems.forEach((navButton) => navButton.hideText.call(navButton, true));
     }
+
+    this.navItems.forEach((navButton) => navButton.hideText.call(navButton, !isAsideOpen));
   }
 
   setNavItem(navItem: Button) {
