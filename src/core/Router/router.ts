@@ -1,3 +1,5 @@
+import { GlobalStore } from '@src/core/GlobalStore';
+
 import { Button } from '@src/components/Button';
 import { Layout } from '@src/components/Layout';
 import { Menu } from '@src/components/Menu';
@@ -9,6 +11,8 @@ import type { RouterQuery, Route, ObserveURLProps } from './interfaces';
 import styles from './styles.module.scss';
 
 export class Router {
+  private globalStore?: GlobalStore;
+
   private layout: Layout | null = null;
   public asideMenu: Menu | null = null;
 
@@ -35,6 +39,10 @@ export class Router {
     });
   }
 
+  connectGlobalStore(store: GlobalStore) {
+    this.globalStore = store;
+  }
+
   connectLayout(layout: Layout) {
     this.layout = layout;
 
@@ -55,6 +63,8 @@ export class Router {
 
   navigate(query: RouterQuery) {
     if (JSON.stringify(query.payload) === this.routePayload) return;
+
+    // console.table(this.globalStore);
 
     const { payload, pageTitle, queries } = query;
 

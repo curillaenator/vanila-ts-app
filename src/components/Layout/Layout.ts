@@ -1,4 +1,5 @@
 import { api } from '@src/api';
+import store, { useGlobalState } from '@src/core/GlobalStore';
 import { Dialog } from '@src/components/Dialog';
 
 import type { ScreenType, ColorMode } from '@src/types';
@@ -9,9 +10,6 @@ import styles from './layout.module.scss';
  */
 
 export class Layout {
-  public colorMode: ColorMode = 'light';
-  private colorModeSubscribers: ((cMode: ColorMode) => void)[] = [];
-
   public screen: ScreenType = 'desktop';
 
   private pageContainer: HTMLElement = document.createElement('div');
@@ -29,9 +27,15 @@ export class Layout {
   private contentContainer: HTMLElement = document.createElement('main');
 
   constructor() {
+    store.create({
+      colorMode: 'light',
+    });
+
+    const [getColorMode, setColorMode] = useGlobalState<ColorMode>('colorMode');
+
     api.getSettings().then((res) => {
-      this.colorMode = res.colorMode;
-      document.body.dataset.theme = this.colorMode;
+      setColorMode(res.colorMode);
+      document.body.dataset.theme = getColorMode();
     });
 
     document.body.style.setProperty('--app-layout-aside-w', '384px');
@@ -133,10 +137,6 @@ export class Layout {
     this.asideopenSubscribers.push(fn);
   }
 
-  observeColorMode(fn: (cMode: ColorMode) => void) {
-    this.colorModeSubscribers.push(fn);
-  }
-
   toggleAside() {
     this.isAsideOpen = !this.isAsideOpen;
 
@@ -151,15 +151,6 @@ export class Layout {
 
   toggleDialog() {
     this.dialog.toggleDialog.call(this.dialog);
-  }
-
-  toggleColorMode() {
-    this.colorMode = this.colorMode === 'light' ? 'dark' : 'light';
-
-    document.body.dataset.theme = this.colorMode;
-    api.setSettings({ colorMode: this.colorMode });
-
-    this.colorModeSubscribers.forEach((fn) => fn(this.colorMode));
   }
 
   setHeaderLeftSlot(...elements: HTMLElement[]) {

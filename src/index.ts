@@ -1,4 +1,5 @@
 // START imports order matters
+import store from '@src/core/GlobalStore';
 import layout from '@src/components/Layout'; // must be imported first
 import router from '@src/core/Router';
 // END imports order matters
@@ -9,9 +10,10 @@ import { Settings } from '@src/pages/Settings';
 
 import { Menu } from '@src/components/Menu';
 
-// import { COLOR_MODES_ASSOC } from '@src/shared/constants';
 import type { CommonPageProps } from '@src/types';
 import './global.scss';
+
+router.connectGlobalStore.call(router, store);
 
 router.connectAsideMenu.call(
   router,
@@ -46,10 +48,7 @@ router.setRoute.call(router, {
 router.setRoute.call(router, {
   to: 'settings',
   label: 'Settings',
-  element: new Settings({
-    ...COMMON_ROUTE_PROPS,
-    toggleColorMode: layout.toggleColorMode.bind(layout),
-  }).render(),
+  element: new Settings(COMMON_ROUTE_PROPS).render(),
 });
 // END routes
 
@@ -60,11 +59,3 @@ layout.setAsideContent.call(
   // @ts-expect-error
   router.asideMenu.render(),
 );
-
-// layout.observeColorMode((cm) => colorModeButton.updateText(COLOR_MODES_ASSOC[cm]));
-// layout.setHeaderLeftSlot.call(layout, colorModeButton.render());
-
-// router.observeURL({
-//   initiator: 'layout',
-//   callback: layout.toggleColorMode.bind(layout),
-// });

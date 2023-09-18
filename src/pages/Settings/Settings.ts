@@ -1,23 +1,35 @@
+import { UIComponent } from '@src/core/UIComponent';
+
+import { api } from '@src/api';
+import store from '@src/core/GlobalStore';
 import router from '@src/core/Router';
+import { useGlobalState } from '@src/core/GlobalStore';
+
 import { Button } from '@src/components/Button';
 
-import type { CommonPageProps } from '@src/types';
+import type { CommonPageProps, ColorMode } from '@src/types';
+import { COLOR_MODES_ASSOC } from '@src/shared/constants';
+import { DARK_ICON } from '@src/shared/icons';
+
+import { COLOR_MODE_ICONS_ASSOC } from './constants';
 import styles from './settings.module.scss';
 
-export interface SettingsProps extends Partial<CommonPageProps> {
-  toggleColorMode: () => void;
-}
+export class Settings extends UIComponent {
+  private colorModeButton = new Button({
+    id: 'settings-color-mode',
+    appearance: 'solid',
+    icon: DARK_ICON,
+    dataset: {
+      colorMode: 'dark',
+    },
+  });
 
-export class Settings {
-  container: HTMLElement = document.createElement('div');
+  constructor(props: Partial<CommonPageProps>) {
+    super({ as: 'div' });
 
-  constructor(props: SettingsProps) {
-    const {
-      toggleColorMode,
-      setHeaderLeftSlot = () => {},
-      setHeaderRightSlot = () => {},
-      setDialogContent = () => {},
-    } = props;
+    const { setHeaderLeftSlot = () => {}, setHeaderRightSlot = () => {}, setDialogContent = () => {} } = props;
+
+    const [getColorMode, setColorMode] = useGlobalState<ColorMode>('colorMode');
 
     router.observeURL({
       initiator: 'settigs-page',
@@ -36,17 +48,22 @@ export class Settings {
       },
     });
 
-    this.container.classList.add(styles.container);
-    this.container.append(
-      new Button({
-        text: 'Mode',
-        appearance: 'solid',
-        onclick: () => toggleColorMode(),
-      }).render(),
-    );
+    this.component.classList.add(styles.container);
+
+    this.colorModeButton.component.onclick = () => setColorMode(COLOR_MODES_ASSOC[getColorMode()]);
+
+    // @ts-expect-error
+    store.addStateObserver('colorMode', (colorMode: ColorMode) => {
+      document.body.dataset.theme = colorMode;
+      api.setSettings({ colorMode });
+      this.updateColorModeButton(colorMode, COLOR_MODE_ICONS_ASSOC[colorMode]);
+    });
+
+    this.component.append(this.colorModeButton.render());
   }
 
-  render() {
-    return this.container;
+  updateColorModeButton(colorMode: string, icon: string) {
+    this.colorModeButton.updateText(colorMode);
+    this.colorModeButton.updateIcon(icon);
   }
 }
