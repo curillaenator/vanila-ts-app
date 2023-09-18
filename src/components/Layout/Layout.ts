@@ -33,7 +33,7 @@ export class Layout {
       isDialogOpen: false,
     });
 
-    console.table(store);
+    // console.table(store);
 
     const [getColorMode, setColorMode] = useGlobalState<ColorMode>('colorMode');
     const [getIsAsideOpen, setIsAsideOpen] = useGlobalState<boolean>('isAsideOpen');

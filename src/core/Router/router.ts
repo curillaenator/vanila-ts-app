@@ -1,4 +1,4 @@
-import store, { useGlobalState } from '@src/core/GlobalStore';
+// import store, { useGlobalState } from '@src/core/GlobalStore';
 
 import { Button } from '@src/components/Button';
 import { Layout } from '@src/components/Layout';
@@ -23,33 +23,9 @@ export class Router {
   public routeQueries: RouterQuery['queries'] = {};
 
   constructor() {
-    const [getIsAsideOpen] = useGlobalState<boolean>('isAsideOpen');
-
     window.addEventListener('popstate', (e) => {
       const page = e.state;
-
-      if (getIsAsideOpen()) {
-        // this.asideMenu?.updateLogo(LOGOS_ASSOC[page]);
-        this.asideMenu?.updateLogo('App');
-      } else {
-        // @ts-expect-error
-        // this.asideMenu.logo.dataset.text = LOGOS_ASSOC[page];
-        this.asideMenu.logo.dataset.text = 'App';
-      }
-
       this.layout?.setMainContent(this.routes[page]);
-    });
-
-    // @ts-expect-error
-    store.addStateObserver('isAsideOpen', (isAsideOpen: boolean) => {
-      if (isAsideOpen) {
-        // this.asideMenu?.updateLogo(LOGOS_ASSOC[JSON.parse(this.routePayload)]);
-        this.asideMenu?.updateLogo('App');
-      } else {
-        // @ts-expect-error
-        // this.asideMenu.logo.dataset.text = LOGOS_ASSOC[JSON.parse(this.routePayload)];
-        this.asideMenu.logo.dataset.text = 'App';
-      }
     });
   }
 
@@ -74,15 +50,20 @@ export class Router {
   navigate(query: RouterQuery) {
     if (JSON.stringify(query.payload) === this.routePayload) return;
 
-    const { payload, pageTitle, queries } = query;
+    const {
+      payload: pageName,
+      pageTitle,
+      queries,
+      // smth,
+    } = query;
 
-    history.pushState(payload, pageTitle, this.parseQueries(queries));
+    history.pushState(pageName, pageTitle, this.parseQueries(queries));
 
     this.routeLocation = location;
     this.routeQueries = queries;
-    this.routePayload = JSON.stringify(payload);
+    this.routePayload = JSON.stringify(pageName);
 
-    Object.values(this.urlObservers).forEach((cb) => cb());
+    Object.values(this.urlObservers).forEach((cb) => cb()); // TODO: to global store obses fires on chanche URL
 
     if (this.layout && queries.page in this.routes) {
       this.layout?.setMainContent.call(this.layout, this.routes[queries.page]);
@@ -93,7 +74,7 @@ export class Router {
     this.asideMenu?.navItems.forEach((navButton) => {
       const navButtonRoute = navButton.getDataset('route');
 
-      if (navButtonRoute === payload) {
+      if (navButtonRoute === pageName) {
         navButton.addClassName(styles.activeRoute);
       } else {
         navButton.removeClassName(styles.activeRoute);
